@@ -1,0 +1,34 @@
+.button:hover{
+    -fx-background-color: #4b4b6b;
+}
+/*.label{*/
+/*    -fx-background-color: #cca0a0;*/
+/*}*/
+
+.bgColor{
+    -fx-background-color: green;
+}
+
+.lineNode{
+    -fx-background-color: blue, white;
+    -fx-background-insets: 0, 6;
+   -fx-background-radius: 1px;
+   -fx-padding: 5px;
+    -fx-width:10px
+}
+
+.recNodeColor{
+    -fx-background-color: green, white;
+    -fx-background-insets: 0, 6;
+    -fx-background-radius: 1px;
+    -fx-padding: 5px;
+    -fx-width:10px
+
+}
+
+.lineColor{
+    -fx-background-color: blue, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
