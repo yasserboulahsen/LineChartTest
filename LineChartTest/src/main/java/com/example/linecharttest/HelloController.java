@@ -1,5 +1,8 @@
 package com.example.linecharttest;
 
+import ESP.EspSerialPort;
+import ESP.xyGraph;
+import com.fazecast.jSerialComm.SerialPort;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class HelloController {
 
@@ -43,6 +49,9 @@ public class HelloController {
     private XYChart.Series<Number,Number> series2 = new XYChart.Series<>();
     private chartTest<Number,Number> chartTest = new chartTest<>(xaxis,yaxis,label1,series1);
     private chartTest<Number,Number> chartTest1 = new chartTest<>(xaxis1,yaxis1,label2,series2);
+    private xyGraph graph;
+    private final SerialPort[] esp32 = {null};
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.S");
 
 
 
@@ -64,40 +73,15 @@ public class HelloController {
 
  }
 
-    public void onStart(ActionEvent actionEvent) {
-
+    public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
+        esp32[0] = EspSerialPort.getSerialPort();
 //        chart.getData().clear();
 //        newchart.getData().clear();
             chartTest.getData().clear();
             chartTest1.getData().clear();
 
-//         chartTest = new chartTest<>(xaxis,yaxis,rec,label1);
-//        chartTest.setTitle("chartTest");
-//        borderPane.setLeft(chartTest);
-
-
-
-         //serie1
-        series1.getData().add( new XYChart.Data<>(1,300));
-        series1.getData().add( new XYChart.Data<>(14,60));
-        series1.getData().add( new XYChart.Data<>(44,40));
-        series1.getData().add( new XYChart.Data<>(47,70));
-        series1.getData().add( new XYChart.Data<>(50,15));
-        series1.getData().add( new XYChart.Data<>(60,25));
-        series1.getData().add( new XYChart.Data<>(75,56));
-        series1.getData().add( new XYChart.Data<>(80,98));
-        series1.getData().add( new XYChart.Data<>(95,47));
-        //serie2
-        series2.getData().add( new XYChart.Data<>(1,-1));
-        series2.getData().add( new XYChart.Data<>(14,60));
-        series2.getData().add( new XYChart.Data<>(44,40));
-        series2.getData().add( new XYChart.Data<>(47,70));
-        series2.getData().add( new XYChart.Data<>(50,15));
-        series2.getData().add( new XYChart.Data<>(60,25));
-        series2.getData().add( new XYChart.Data<>(75,56));
-        series2.getData().add( new XYChart.Data<>(80,98));
-        series2.getData().add( new XYChart.Data<>(95,47));
-
+        graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
+        graph.chart(1, 100);
          chartTest.toFront();
          chartTest1.toFront();
          chartTest.getDataTest();
