@@ -56,7 +56,8 @@ public class HelloController {
 
 
 
- public void initialize(){
+ public void initialize() throws IOException, InterruptedException {
+     esp32[0] = EspSerialPort.getSerialPort();
 //     borderPane.setLeft(newchart);
 //     chart.setAnimated(false);
 //     newchart.setAnimated(false);
@@ -64,28 +65,36 @@ public class HelloController {
 //    borderPane.getChildren().add(chartTest);
 
 //     xaxis.setLabel("X");
+     chartTest1.autoResize(true);
+     chartTest.autoResize(true);
      borderPane.setCenter(vbox);
      vbox.getChildren().addAll(chartTest,chartTest1);
 
 //    chartTest.showRecTangle(false);
     series1.setName("Force");
     series2.setName("Speed");
+    chartTest.setAnimated(false);
+    chartTest1.setAnimated(false);
+
 
  }
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
-        esp32[0] = EspSerialPort.getSerialPort();
+
 //        chart.getData().clear();
 //        newchart.getData().clear();
+            series1.getData().removeAll(series1.getData());
+            series2.getData().removeAll(series2.getData());
             chartTest.getData().clear();
             chartTest1.getData().clear();
-
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
         graph.chart(1, 100);
          chartTest.toFront();
          chartTest1.toFront();
          chartTest.getDataTest();
          chartTest1.getDataTest();
+//        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
+
 //         chartTest.getData().add(series1);
 //         chart.getData().add(series);
 
@@ -119,5 +128,9 @@ public class HelloController {
         chartTest.autoResize(sizeAuto);
 
 
+    }
+
+    public void onStop(ActionEvent actionEvent) {
+     graph.shutDownService();
     }
 }

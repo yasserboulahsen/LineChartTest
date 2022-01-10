@@ -50,7 +50,8 @@ public class xyGraph {
             Platform.runLater(() -> {
 
 
-                chartColor();//color of chart changes to blue
+//                chartColor();//color of chart changes to blue
+
                 // get current time
                 Date nowTime = new Date();
                 curentTime.setTime(nowTime.getTime() - previuosTime.getTime());
