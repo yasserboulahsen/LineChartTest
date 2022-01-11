@@ -135,7 +135,10 @@ public class HelloController {
     }
 
     public void onStop(ActionEvent actionEvent) {
-     graph.shutDownService();
+        chartTest1.autoResize(false);
+        chartTest.autoResize(false);
+
+    graph.shutDownService();
     }
 
     public void onConnexion(ActionEvent actionEvent) {

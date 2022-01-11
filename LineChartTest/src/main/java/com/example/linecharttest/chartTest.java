@@ -271,6 +271,9 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
             vLine.setOnMouseEntered(e->{
                 setCursor(Cursor.CROSSHAIR);
             });
+            vLine.setOnMouseExited(e->{
+                setCursor(Cursor.DEFAULT);
+            });
   vLine.setOnMouseDragged(e->{
      Bounds b = plotArea.getBoundsInLocal();
       // If the mouse cursor is within the plot area bounds
@@ -302,13 +305,18 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
                     getyVlaue().setText(data.getYValue().toString());
 
                 }
-
-
-
             }
 
 
         });
+        hLine.setOnMouseEntered(e->{
+            hLine.setStyle("-fx-stroke:red;");
+            setCursor(Cursor.CROSSHAIR);
+        });
+        hLine.setOnMouseExited(e->{
+            setCursor(Cursor.DEFAULT);
+        });
+
 
 
         getPlotChildren().addAll(hLine,vLine);
