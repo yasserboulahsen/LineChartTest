@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-public class HelloController {
+public class Controller {
     @FXML
     private Label xValue;
     @FXML
@@ -47,8 +47,8 @@ public class HelloController {
 //    private Rectangle rec =
     private XYChart.Series<Number,Number> series1 = new XYChart.Series<>();
     private XYChart.Series<Number,Number> series2 = new XYChart.Series<>();
-    private chartTest<Number,Number> chartTest = new chartTest<>(xaxis,yaxis, yvalueLabel, xvalueLabel,series1);
-    private chartTest<Number,Number> chartTest1 = new chartTest<>(xaxis1,yaxis1,label2,xvalue2, series2);
+    private Chart<Number,Number> Chart = new Chart<>(xaxis,yaxis, yvalueLabel, xvalueLabel,series1);
+    private Chart<Number,Number> chart1 = new Chart<>(xaxis1,yaxis1,label2,xvalue2, series2);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.S");
@@ -67,39 +67,43 @@ public class HelloController {
 //     xaxis.setLabel("X");
 
      borderPane.setCenter(vbox);
-     vbox.getChildren().addAll(chartTest,chartTest1);
+     vbox.getChildren().addAll(Chart, chart1);
 
 //    chartTest.showRecTangle(false);
     series1.setName("Force");
     series2.setName("Speed");
-    chartTest.setAnimated(false);
-    chartTest1.setAnimated(false);
-    chartTest1.autoResize(true);
-     chartTest.autoResize(true);
-     chartTest.setCreateSymbols(true);
-     chartTest1.setCreateSymbols(true);
+    Chart.setAnimated(false);
+    chart1.setAnimated(false);
+    chart1.autoResize(true);
+     Chart.autoResize(true);
+     Chart.setCreateSymbols(true);
+     chart1.setCreateSymbols(true);
 
 
  }
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
-        chartTest1.autoResize(true);
-        chartTest.autoResize(true);
+        chart1.autoResize(true);
+        Chart.autoResize(true);
             esp32[0].openPort();
 //        chart.getData().clear();
 //        newchart.getData().clear();
             series1.getData().removeAll(series1.getData());
             series2.getData().removeAll(series2.getData());
-            chartTest.getData().clear();
-            chartTest1.getData().clear();
+            Chart.getData().clear();
+            chart1.getData().clear();
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
         graph.chart(1, 100);
 //         chartTest.toFront();
 //         chartTest1.toFront();
 
-         chartTest.getDataTest();
-         chartTest1.getDataTest();
-       series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue");
+         Chart.getDataTest();
+         chart1.getDataTest();
+         series1.getNode().setStyle("-fx-background-color: blue, white;\n"
+                + "    -fx-background-insets: 0, 2;\n"
+                + "    -fx-background-radius: 5px;\n"
+                + "    -fx-padding: 5px;");
+         series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue");
 
 //         chartTest.getData().add(series1);
 //         chart.getData().add(series);
@@ -117,12 +121,12 @@ public class HelloController {
     }
 
     public void showRectangle(ActionEvent actionEvent) {
-     chartTest.addnewRectangle();
-     chartTest1.addnewRectangle();
+     Chart.addnewRectangle(borderPane);
+     chart1.addnewRectangle(borderPane);
 //     chartTest1.showRecTangle(true);
 //     chartTest.showRecTangle(true);
-       xValue.textProperty().bind(chartTest.getxValue().textProperty());
-        yValue.textProperty().bind(chartTest.getyVlaue().textProperty());
+       xValue.textProperty().bind(Chart.getxValue().textProperty());
+        yValue.textProperty().bind(Chart.getyVlaue().textProperty());
 
 
     }
@@ -130,17 +134,17 @@ public class HelloController {
     public void onAutoSize(ActionEvent actionEvent) {
       sizeAuto = !sizeAuto;
 
-        chartTest1.autoResize(sizeAuto);
-        chartTest.autoResize(sizeAuto);
+        chart1.autoResize(sizeAuto);
+        Chart.autoResize(sizeAuto);
 
 
     }
 
     public void onStop(ActionEvent actionEvent) {
-        chartTest1.autoResize(false);
-        chartTest.autoResize(false);
-        chartTest1.getLine().toFront();
-        chartTest.getLine().toFront();
+        chart1.autoResize(false);
+        Chart.autoResize(false);
+        chart1.getLine().toFront();
+        Chart.getLine().toFront();
 
 
     graph.shutDownService();

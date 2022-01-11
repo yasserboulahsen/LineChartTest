@@ -13,11 +13,14 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
-public class chartTest<X, Y> extends LineChart<X,Y> {
+import java.util.Objects;
+
+public class Chart<X, Y> extends LineChart<X,Y> {
 
     private ObservableList<Rectangle> recs = FXCollections.observableArrayList();
     private Rectangle rec;
@@ -38,7 +41,7 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 
 
 
-    public chartTest(Axis<X> axis, Axis<Y> axis1, Label yvalue, Label xvalue, XYChart.Series<X, Y> series) {
+    public Chart(Axis<X> axis, Axis<Y> axis1, Label yvalue, Label xvalue, Series<X, Y> series) {
         super(axis, axis1);
         this.xValue = xvalue;
         this.yValue = yvalue;
@@ -56,20 +59,31 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 //        this.rec.setVisible(show);
 //    }
 
-    public void addnewRectangle() {
+    public void addnewRectangle(BorderPane borderPane) {
 //        this.rec = new Rectangle(200,50,Color.rgb(0,0,255,0.72));
 
         crosshair();
         Platform.runLater(()->{
-            rectangleAdded();
+            rectangleAdded(borderPane);
         });
 
     }
 
-    private void rectangleAdded() {
+    private void rectangleAdded(BorderPane borderPane) {
         Rectangle rectangle = new Rectangle(250, 100, Color.valueOf("A9DCDAB8"));
         ResizeRegion.makeResizable(rectangle, null);
+        rectangle.setId("rectangle");
         rectangle.setOnMouseClicked(e -> {
+            rectangle.cursorProperty().set(Cursor.HAND);
+            rectangle.setStroke(Color.valueOf("#2c2828"));
+            rectangle.setStrokeWidth(1);
+//            System.out.println(rectangle.getId());
+            borderPane.setOnKeyPressed(keyEvent -> {
+                if(Objects.equals(keyEvent.getCode().toString(), "DELETE")){
+                    getPlotChildren().remove(this.lookup("#rectangle"));
+                    System.out.println(this.lookup("#rectangle"));
+                }
+            });
 
 
             for (Data<X, Y> data : this.series.getData()) {
@@ -85,6 +99,8 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
             }
 
         });
+
+
         getPlotChildren().add(rectangle);
     }
 
@@ -110,6 +126,24 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
         Platform.runLater(() -> {
             dataManage();
         });
+        Platform.runLater(()->{
+            zoomAxis(xAxis, yAxis);
+        });
+
+
+
+        if ( !getPlotChildren().contains(line)) {
+
+            getPlotChildren().addAll(line);
+        }
+
+
+
+
+    }
+
+    private void zoomAxis(NumberAxis xAxis, NumberAxis yAxis) {
+        getXAxis().setTickLabelGap(0.1);
         this.getXAxis().setOnMouseEntered(e->{
 
             x=e.getX();
@@ -182,17 +216,6 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 //            xAxis.setUpperBound(x);
 //            xAxis.setLowerBound(xAxis.getLowerBound()+10);
         });
-
-
-
-        if ( !getPlotChildren().contains(line)) {
-
-            getPlotChildren().addAll(line);
-        }
-
-
-
-
     }
 
 
@@ -255,7 +278,7 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 
     }
     public void crosshair(){
-        getXAxis().setTickLabelGap(0.1);
+
 
 //        final NumberAxis xAxis = (NumberAxis) this.getXAxis();
 //        final NumberAxis yAxis =(NumberAxis) this.getYAxis();
