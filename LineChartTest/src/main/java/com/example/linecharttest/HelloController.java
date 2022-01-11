@@ -83,6 +83,8 @@ public class HelloController {
  }
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
+        chartTest1.autoResize(true);
+        chartTest.autoResize(true);
             esp32[0].openPort();
 //        chart.getData().clear();
 //        newchart.getData().clear();
@@ -137,6 +139,9 @@ public class HelloController {
     public void onStop(ActionEvent actionEvent) {
         chartTest1.autoResize(false);
         chartTest.autoResize(false);
+        chartTest1.getLine().toFront();
+        chartTest.getLine().toFront();
+
 
     graph.shutDownService();
     }

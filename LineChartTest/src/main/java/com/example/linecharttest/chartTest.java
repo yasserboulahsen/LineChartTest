@@ -136,13 +136,18 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 //           System.out.println(e.getY());
 //            this.getYAxis().setAutoRanging(true);
             double yUpper = yAxis.getUpperBound();
+            double yLower = yAxis.getLowerBound();
             if(e.getY()<y){
 //                System.out.println("<- up " + y);
-                yUpper +=1;
+                yUpper +=0.5;
+                yLower -=0.5;
                 yAxis.setUpperBound(yUpper);
+                yAxis.setLowerBound(yLower);
             }else {
 //                System.out.println("down ->" +y);
-                yUpper -=1;
+                yLower +=0.5;
+                yUpper -=0.5;
+                yAxis.setLowerBound(yLower);
                 yAxis.setUpperBound(yUpper);
             }
             y =e.getY();
@@ -155,12 +160,16 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
             double xUpper = xAxis.getUpperBound();
             if(e.getX()<x){
 //                System.out.println("<- left " + x);
-                xUpper +=1;
+                xUpper +=0.1;
+                xLower-=0.1;
                 xAxis.setUpperBound(xUpper);
+                xAxis.setLowerBound(xLower);
             }else {
 //                System.out.println("right ->" +x);
-                xUpper -=1;
+                xUpper -=0.1;
+                xLower +=0.1;
                 xAxis.setUpperBound(xUpper);
+                xAxis.setLowerBound(xLower);
             }
             x =e.getX();
 
@@ -246,6 +255,7 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
 
     }
     public void crosshair(){
+        getXAxis().setTickLabelGap(0.1);
 
 //        final NumberAxis xAxis = (NumberAxis) this.getXAxis();
 //        final NumberAxis yAxis =(NumberAxis) this.getYAxis();
@@ -329,6 +339,8 @@ public class chartTest<X, Y> extends LineChart<X,Y> {
     public Label getxValue() {
         return xValue;
     }
+
+    public Line getLine(){return this.line;}
 
     public void Xaxis(){
         final NumberAxis xAxis = (NumberAxis) this.getXAxis();
