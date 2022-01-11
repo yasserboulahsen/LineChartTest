@@ -6,25 +6,20 @@ import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class HelloController {
+    @FXML
+    private Label xValue;
     @FXML
     private Button connect;
     @FXML
@@ -45,13 +40,15 @@ public class HelloController {
     private NumberAxis xaxis1 = new NumberAxis(0,100,1);
     private NumberAxis yaxis1 =  new NumberAxis(0,100,1);
 //    private LineChart<Number,Number> newchart = new LineChart<>(xaxis,yaxis);
-    private final Label label1 = new Label();
+    private final Label xvalueLabel = new Label();
+    private final Label yvalueLabel = new Label();
     private final Label label2 = new Label();
+    private final Label xvalue2 = new Label();
 //    private Rectangle rec =
     private XYChart.Series<Number,Number> series1 = new XYChart.Series<>();
     private XYChart.Series<Number,Number> series2 = new XYChart.Series<>();
-    private chartTest<Number,Number> chartTest = new chartTest<>(xaxis,yaxis,label1,series1);
-    private chartTest<Number,Number> chartTest1 = new chartTest<>(xaxis1,yaxis1,label2,series2);
+    private chartTest<Number,Number> chartTest = new chartTest<>(xaxis,yaxis, yvalueLabel, xvalueLabel,series1);
+    private chartTest<Number,Number> chartTest1 = new chartTest<>(xaxis1,yaxis1,label2,xvalue2, series2);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.S");
@@ -122,8 +119,8 @@ public class HelloController {
      chartTest1.addnewRectangle();
 //     chartTest1.showRecTangle(true);
 //     chartTest.showRecTangle(true);
-
-        yValue.textProperty().bind(chartTest.getLabel().textProperty());
+       xValue.textProperty().bind(chartTest.getxValue().textProperty());
+        yValue.textProperty().bind(chartTest.getyVlaue().textProperty());
 
 
     }

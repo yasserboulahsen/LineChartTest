@@ -96,7 +96,7 @@ public class xyGraph {
             if (split != null && split1!=null) {
                 this.series.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split)));
                 this.series1.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split1)));
-                System.out.println(Double.valueOf(this.simpleDateFormat.format(curentTime))+"--"+ Double.valueOf(split1));
+//                System.out.println(Double.valueOf(this.simpleDateFormat.format(curentTime))+"--"+ Double.valueOf(split1));
 //                list.add(series);
             }
         } catch (Exception e) {

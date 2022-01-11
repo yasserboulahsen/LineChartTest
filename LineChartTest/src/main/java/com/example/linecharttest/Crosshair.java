@@ -4,21 +4,20 @@ import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.chart.Axis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 
-public abstract class Crosshair<X,Y> extends XYChart<X,Y>{
-    private Line vline;
-    private Line hline;
+public  class Crosshair<X,Y> extends LineChart<X,Y> {
+
     private Group plotArea;
     private final XYChart.Series<X, Y> series;
     private Label label;
 
-    public Crosshair(Axis<X> axis, Axis<Y> axis1, Line vline, Line hline, Group plotArea, Series<X, Y> series, Label label) {
+    public Crosshair(Axis<X> axis, Axis<Y> axis1, Group plotArea, Series<X, Y> series, Label label) {
         super(axis, axis1);
-        this.vline = vline;
-        this.hline = hline;
+
         this.plotArea =plotArea;
         this.series = series;
         this.label =label;

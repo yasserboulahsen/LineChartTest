@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.HelloController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.HelloController">
    <bottom>
       <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="26.0" prefWidth="139.0" text="Button" BorderPane.alignment="CENTER">
          <padding>
@@ -40,11 +40,32 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="yValue" prefHeight="28.0" prefWidth="100.0" text="Label">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Label>
+            <HBox prefHeight="25.0" prefWidth="100.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="31.0" text="Y : ">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="yValue" accessibleHelp="valeur de y" prefHeight="27.0" prefWidth="59.0" text="Y" />
+               </children>
+               <opaqueInsets>
+                  <Insets left="5.0" right="5.0" />
+               </opaqueInsets>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="100.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="25.0" text="X : ">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="44.0" text="X" fx:id="xValue">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </left>
