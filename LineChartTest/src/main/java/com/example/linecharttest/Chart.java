@@ -61,7 +61,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     public void addnewRectangle(BorderPane borderPane) {
 //        this.rec = new Rectangle(200,50,Color.rgb(0,0,255,0.72));
 
-        crosshair();
+
         Platform.runLater(()->{
             rectangleAdded(borderPane);
         });
@@ -343,19 +343,22 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                 hLine.setEndY(e.getY() - b.getMinY() - 5);
 
             }
-            for (Data<X, Y> data : this.series.getData()) {
-                if (hLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())){
-//                System.out.println(data.getYValue().toString());
-                    getyVlaue().setText(data.getYValue().toString());
-                    data.getNode().setStyle("-fx-background-insets: 0,6");
 
+            this.series.getData().filtered(xyData -> {
+                if (hLine.getBoundsInParent().intersects(xyData.getNode().getBoundsInParent())) {
+
+                    getyVlaue().setText(xyData.getYValue().toString());
+                    xyData.getNode().setStyle("-fx-background-insets: 0,6");
                 }else{
-                    data.getNode().setStyle(null);
+                    xyData.getNode().setStyle(null);
                 }
-            }
+                return false;
+            });
+
 
 
         });
+
         hLine.setOnMouseEntered(e->{
             hLine.setStyle("-fx-stroke:red;");
             setCursor(Cursor.CROSSHAIR);

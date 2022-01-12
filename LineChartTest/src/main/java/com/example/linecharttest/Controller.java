@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 
 public class Controller {
     @FXML
+    private Button curseur;
+    @FXML
     private Label xValue;
     @FXML
     private Button connect;
@@ -116,8 +118,7 @@ public class Controller {
         chart1.addnewRectangle(borderPane);
 //     chartTest1.showRecTangle(true);
 //     chartTest.showRecTangle(true);
-        xValue.textProperty().bind(chart.getxValue().textProperty());
-        yValue.textProperty().bind(chart.getyVlaue().textProperty());
+
 
 
     }
@@ -197,5 +198,12 @@ public class Controller {
 
 
         new Thread(runnable).start();
+    }
+
+    public void onCursor(ActionEvent actionEvent) {
+        chart.crosshair();
+        chart1.crosshair();
+        xValue.textProperty().bind(chart.getxValue().textProperty());
+        yValue.textProperty().bind(chart.getyVlaue().textProperty());
     }
 }

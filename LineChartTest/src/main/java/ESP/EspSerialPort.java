@@ -14,6 +14,7 @@ public class EspSerialPort {
            //esp.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,0,0);
            esp32.setComPortParameters(115200, 8, 1, 0);
            esp32.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+
            esp32.openPort();
 
       
