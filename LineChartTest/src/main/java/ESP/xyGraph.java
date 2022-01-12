@@ -50,7 +50,7 @@ public class xyGraph {
             Platform.runLater(() -> {
 
 
-//                chartColor();//color of chart changes to blue
+//               chartColor();//color of chart changes to blue
 
                 // get current time
                 Date nowTime = new Date();
@@ -80,13 +80,13 @@ public class xyGraph {
     }
 
     private void chartColor() {
-        for (XYChart.Data<Number, Number> entry : series.getData()) {
+        for (XYChart.Data<Number, Number> entry : series1.getData()) {
             entry.getNode().setStyle("-fx-background-color: blue, white;\n"
                     + "    -fx-background-insets: 0, 2;\n"
                     + "    -fx-background-radius: 5px;\n"
                     + "    -fx-padding: 5px;");
         }
-        series.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
+        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
     }
 
     private void chartsSeries(int number, String t) {

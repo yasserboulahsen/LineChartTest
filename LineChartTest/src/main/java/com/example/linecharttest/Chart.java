@@ -23,20 +23,20 @@ import java.util.Objects;
 public class Chart<X, Y> extends LineChart<X,Y> {
 
     private ObservableList<Rectangle> recs = FXCollections.observableArrayList();
-    private Rectangle rec;
+
 
     private Group plotArea;
 
     private final Label yValue;
     private final Label xValue;
     private final XYChart.Series<X, Y> series;
-    private Line line;
+    private final Line line;
     private  double  x =0  ;
     private  double y =0;
     private final Line hLine = new Line();
     private final Line vLine = new Line();
 
-    private ObservableList<Node> points = FXCollections.observableArrayList();
+    private final ObservableList<Node> points = FXCollections.observableArrayList();
 
 
 
@@ -52,7 +52,6 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
 
 //        this.series.getNode().getStyleClass().add("lineColor");
-
     }
 
 //    public void showRecTangle(boolean show) {
@@ -329,6 +328,9 @@ public class Chart<X, Y> extends LineChart<X,Y> {
           if (vLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())) {
 //              System.out.println(data.getXValue());
                    getxValue().setText((data.getXValue().toString()));
+              data.getNode().setStyle("-fx-background-insets: 0,6");
+          }else {
+              data.getNode().setStyle(null);
           }
       }
 
@@ -345,7 +347,10 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                 if (hLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())){
 //                System.out.println(data.getYValue().toString());
                     getyVlaue().setText(data.getYValue().toString());
+                    data.getNode().setStyle("-fx-background-insets: 0,6");
 
+                }else{
+                    data.getNode().setStyle(null);
                 }
             }
 
