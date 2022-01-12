@@ -93,10 +93,13 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 //                    System.out.println("X " + data.getXValue() + " Y = " + data.getYValue());
                     data.getNode().getStyleClass().add("recNodeColor");
 
+
                 }else {
-                    data.getNode().getStyleClass().remove("recNodeColor");
+
+                   data.getNode().getStyleClass().remove("recNodeColor");
                 }
             }
+
 
         });
 
@@ -107,6 +110,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     public void getDataTest() {
 
         this.getData().add(this.series);
+
+
 //        this.rec.toFront();
 
     }
@@ -124,7 +129,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
             plotArea = (Group) plotContent.getParent();
         }
         Platform.runLater(() -> {
-            dataManage();
+            drawLine();
         });
         Platform.runLater(()->{
             zoomAxis(xAxis, yAxis);
@@ -132,10 +137,6 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
 
 
-        if ( !getPlotChildren().contains(line)) {
-
-            getPlotChildren().addAll(line);
-        }
 
 
 
@@ -219,7 +220,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     }
 
 
-    private void dataManage() {
+    private void drawLine() {
 
         for (Data<X, Y> data : this.series.getData()) {
             data.getNode().setOnMouseEntered(e->{
@@ -233,9 +234,9 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
 
 
-                data.getNode().getStyleClass().add("lineNode");
+               data.getNode().getStyleClass().add("lineNode");
                 if (points.size() == 2) {
-
+                    getPlotChildren().addAll(line);
 //                    System.out.println(points.get(0).getLayoutX() + data.getNode().getBoundsInLocal().getCenterX());
                     line.setStartX(points.get(0).getBoundsInParent().getCenterX());
                     line.setStartY(points.get(0).getBoundsInParent().getCenterY());
@@ -245,6 +246,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                     line.setScaleY(1.5);
                 }
                 if (points.size() > 2) {
+                    getPlotChildren().remove(line);
                     points.forEach(n->{
                          n.getStyleClass().remove("lineNode");
                             });
@@ -253,26 +255,33 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                     points.clear();
                 }
 
-                ChangeListener<Number> stageChageListener = ((observable, oldValue, newValue) -> {
+                    ChangeListener<Number> stageChageListener = ((observable, oldValue, newValue) -> {
 
 //                   System.out.println(this.getWidth() +"/"+ this.getHeight());
 //                    System.out.println(points.get(0).getBoundsInParent().getCenterX()+data.getNode().getBoundsInLocal().getCenterX());
-                    line.setStartX(points.get(0).getBoundsInParent().getCenterX());
-                    line.setStartY(points.get(0).getBoundsInParent().getCenterY());
-                    line.setEndX(points.get(1).getBoundsInParent().getCenterX());
-                    line.setEndY(points.get(1).getBoundsInParent().getCenterY());
+                        line.setStartX(points.get(0).getBoundsInParent().getCenterX());
+                        line.setStartY(points.get(0).getBoundsInParent().getCenterY());
+                        line.setEndX(points.get(1).getBoundsInParent().getCenterX());
+                        line.setEndY(points.get(1).getBoundsInParent().getCenterY());
+                    });
+
+                    this.widthProperty().addListener(stageChageListener);
+
+
+                    this.heightProperty().addListener(stageChageListener);
+
                 });
 
-                this.widthProperty().addListener(stageChageListener);
 
-                this.heightProperty().addListener(stageChageListener);
-            });
+
+
 
         }
 
 
     }
     public void autoResize(boolean size){
+
         this.getYAxis().setAutoRanging(size);
         this.getXAxis().setAutoRanging(size);
 

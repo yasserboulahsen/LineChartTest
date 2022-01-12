@@ -33,6 +33,7 @@ public class Controller {
 
     @FXML
     private Button start;
+
     private boolean sizeAuto =false;
 
     private NumberAxis xaxis = new NumberAxis(0,100,1);
@@ -65,7 +66,7 @@ public class Controller {
 //    borderPane.getChildren().add(chartTest);
 
 //     xaxis.setLabel("X");
-
+     start.setDisable(true);
      borderPane.setCenter(vbox);
      vbox.getChildren().addAll(Chart, chart1);
 
@@ -74,10 +75,11 @@ public class Controller {
     series2.setName("Speed");
     Chart.setAnimated(false);
     chart1.setAnimated(false);
-    chart1.autoResize(true);
+     chart1.autoResize(true);
      Chart.autoResize(true);
      Chart.setCreateSymbols(true);
      chart1.setCreateSymbols(true);
+
 
 
  }
@@ -86,24 +88,20 @@ public class Controller {
         chart1.autoResize(true);
         Chart.autoResize(true);
             esp32[0].openPort();
-//        chart.getData().clear();
-//        newchart.getData().clear();
+
             series1.getData().removeAll(series1.getData());
             series2.getData().removeAll(series2.getData());
             Chart.getData().clear();
             chart1.getData().clear();
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
         graph.chart(1, 100);
-//         chartTest.toFront();
-//         chartTest1.toFront();
+
 
          Chart.getDataTest();
          chart1.getDataTest();
-         series1.getNode().setStyle("-fx-background-color: blue, white;\n"
-                + "    -fx-background-insets: 0, 2;\n"
-                + "    -fx-background-radius: 5px;\n"
-                + "    -fx-padding: 5px;");
-         series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue");
+        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
+//        series1.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: blue");
+
 
 //         chartTest.getData().add(series1);
 //         chart.getData().add(series);

@@ -4,17 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
-   <bottom>
-      <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="26.0" prefWidth="139.0" text="Button" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="5.0" top="5.0" />
-         </padding>
-         <BorderPane.margin>
-            <Insets bottom="5.0" top="5.0" />
-         </BorderPane.margin>
-      </Button>
-   </bottom>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
    <center>
       <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
@@ -30,28 +20,39 @@
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin></Button>
-            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="26.0" prefWidth="99.0" text="Stop" textFill="RED">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" />
-               </VBox.margin>
-            </Button>
             <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnexion" prefHeight="26.0" prefWidth="101.0" text="connexion">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
             </Button>
-            <HBox prefHeight="25.0" prefWidth="100.0">
-               <children>
-                  <Label prefHeight="33.0" prefWidth="31.0" text="Y : ">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></Label>
-                  <Label fx:id="yValue" accessibleHelp="valeur de y" prefHeight="27.0" prefWidth="59.0" text="Y" />
-               </children>
-               <opaqueInsets>
-                  <Insets left="5.0" right="5.0" />
-               </opaqueInsets>
-            </HBox>
+         </children>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="27.0" prefWidth="100.0" text="Start" textFill="#1500ff">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="26.0" prefWidth="99.0" text="Stop" textFill="RED">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER" prefHeight="25.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="33.0" prefWidth="31.0" text="Y : ">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="yValue" accessibleHelp="valeur de y" prefHeight="27.0" prefWidth="59.0" text="Y" />
             <HBox prefHeight="25.0" prefWidth="100.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="25.0" text="X : ">
@@ -67,27 +68,9 @@
                </children>
             </HBox>
          </children>
-      </VBox>
-   </left>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+         <opaqueInsets>
+            <Insets left="5.0" right="5.0" />
+         </opaqueInsets>
+      </HBox>
    </top>
 </BorderPane>
