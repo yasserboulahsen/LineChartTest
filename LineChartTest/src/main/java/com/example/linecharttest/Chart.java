@@ -13,6 +13,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -127,12 +128,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
             Group plotContent = (Group) getPlotChildren().get(0).getParent();
             plotArea = (Group) plotContent.getParent();
         }
-        Platform.runLater(() -> {
-            drawLine();
-        });
-        Platform.runLater(()->{
-            zoomAxis(xAxis, yAxis);
-        });
+        Platform.runLater(this::drawLine);
+        Platform.runLater(()-> zoomAxis(xAxis, yAxis));
 
 
 
@@ -295,8 +292,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 //         cross.getCrossHair(vLine,hLine);
         getPlotChildren().removeAll(vLine,hLine);
 
-        vLine.setStrokeWidth(2);
-        hLine.setStrokeWidth(2);
+            vLine.setStrokeWidth(2);
+            hLine.setStrokeWidth(2);
 
             hLine.setStartX(0);
             hLine.setStartY(getBoundsInLocal().getHeight() / 2);
@@ -309,40 +306,46 @@ public class Chart<X, Y> extends LineChart<X,Y> {
             vLine.setEndX(getBoundsInLocal().getWidth() / 2);
 
 
-            vLine.setOnMouseEntered(e->{
-                setCursor(Cursor.CROSSHAIR);
-            });
-            vLine.setOnMouseExited(e->{
-                setCursor(Cursor.DEFAULT);
-            });
-  vLine.setOnMouseDragged(e->{
-     Bounds b = plotArea.getBoundsInLocal();
-      // If the mouse cursor is within the plot area bounds
-      if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
+        vLineStyleOnDrag();
+        hLineStyleOnDrag();
 
 
-          vLine.setStartX(e.getX() - b.getMinX() - 5);
-          vLine.setEndX(e.getX()- b.getMinX()-5);
-      }
-      for (Data<X, Y> data : this.series.getData()) {
-          if (vLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())) {
-//              System.out.println(data.getXValue());
-                   getxValue().setText((data.getXValue().toString()));
-              data.getNode().setStyle("-fx-background-insets: 0,6");
-          }else {
-              data.getNode().setStyle(null);
-          }
-      }
+        getPlotChildren().addAll(hLine,vLine);
+    }
 
-
-  });
-        hLine.setOnMouseDragged(e->{
-            Bounds b = plotArea.getBoundsInLocal();
+    private void vLineStyleOnDrag() {
+        vLine.setOnMouseDragged(e->{
+           Bounds b = plotArea.getBoundsInLocal();
+            // If the mouse cursor is within the plot area bounds
             if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
-                hLine.setStartY(e.getY() - b.getMinY() - 5);
-                hLine.setEndY(e.getY() - b.getMinY() - 5);
 
+
+                vLine.setStartX(e.getX() - b.getMinX() - 5);
+                vLine.setEndX(e.getX()- b.getMinX()-5);
             }
+            for (Data<X, Y> data : this.series.getData()) {
+                if (vLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())) {
+      //              System.out.println(data.getXValue());
+                         getxValue().setText((data.getXValue().toString()));
+                    data.getNode().setStyle("-fx-background-insets: 0,6");
+                }else {
+                    data.getNode().setStyle(null);
+                }
+            }
+
+
+        });
+        vLine.setOnMouseEntered(e->{
+            setCursor(Cursor.CROSSHAIR);
+        });
+        vLine.setOnMouseExited(e->{
+            setCursor(Cursor.DEFAULT);
+        });
+    }
+
+    private void hLineStyleOnDrag() {
+        hLine.setOnMouseDragged(e->{
+            EventMouseOnYaxis(e, plotArea, hLine);
 
             this.series.getData().filtered(xyData -> {
                 if (hLine.getBoundsInParent().intersects(xyData.getNode().getBoundsInParent())) {
@@ -366,10 +369,15 @@ public class Chart<X, Y> extends LineChart<X,Y> {
         hLine.setOnMouseExited(e->{
             setCursor(Cursor.DEFAULT);
         });
+    }
 
+    static void EventMouseOnYaxis(MouseEvent e, Group plotArea, Line hLine) {
+        Bounds b = plotArea.getBoundsInLocal();
+        if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
+            hLine.setStartY(e.getY() - b.getMinY() - 5);
+            hLine.setEndY(e.getY() - b.getMinY() - 5);
 
-
-        getPlotChildren().addAll(hLine,vLine);
+        }
     }
 
 

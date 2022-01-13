@@ -54,12 +54,7 @@ public  class Crosshair<X,Y> extends LineChart<X,Y> {
 
       });
       hLine.setOnMouseDragged(e->{
-          Bounds b = plotArea.getBoundsInLocal();
-          if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
-              hLine.setStartY(e.getY() - b.getMinY() - 5);
-              hLine.setEndY(e.getY() - b.getMinY() - 5);
-
-          }
+          Chart.EventMouseOnYaxis(e, plotArea, hLine);
           for (XYChart.Data<X, Y> data : this.series.getData()) {
               if (hLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())){
 //                   System.out.println(data.getYValue().toString());
