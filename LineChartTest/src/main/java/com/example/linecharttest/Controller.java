@@ -38,9 +38,9 @@ public class Controller {
 
     private boolean sizeAuto = false;
 
-    private NumberAxis xaxis = new NumberAxis(0, 100, 1);
+    private NumberAxis xaxis = new NumberAxis();
     private NumberAxis yaxis = new NumberAxis(0, 100, 1);
-    private NumberAxis xaxis1 = new NumberAxis(0, 100, 1);
+    private NumberAxis xaxis1 = new NumberAxis();
     private NumberAxis yaxis1 = new NumberAxis(0, 100, 1);
     //    private LineChart<Number,Number> newchart = new LineChart<>(xaxis,yaxis);
     private final Label xvalueLabel = new Label();
@@ -95,7 +95,7 @@ public class Controller {
         chart.getData().clear();
         chart1.getData().clear();
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
-        graph.chart(1, 100);
+        graph.chart(1, 150);
 
 
         chart.getDataTest();

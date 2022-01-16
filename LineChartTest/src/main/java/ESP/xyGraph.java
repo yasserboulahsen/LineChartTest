@@ -5,10 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -59,13 +56,11 @@ public class xyGraph {
 
                 Scanner data = new Scanner(this.esp32[0].getInputStream());
 
-
                 if (data.hasNext()) {
                     //String[] split = t.split(",");
                     String t = data.nextLine();
 
 
-                    // System.out.println(t);
                     //Chart update to series graph
                     chartsSeries(number, t);
 
@@ -79,21 +74,13 @@ public class xyGraph {
 
     }
 
-    private void chartColor() {
-        for (XYChart.Data<Number, Number> entry : series1.getData()) {
-            entry.getNode().setStyle("-fx-background-color: blue, white;\n"
-                    + "    -fx-background-insets: 0, 2;\n"
-                    + "    -fx-background-radius: 5px;\n"
-                    + "    -fx-padding: 5px;");
-        }
-        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
-    }
+
 
     private void chartsSeries(int number, String t) {
         try {
             String split = splitData(t, number);
             String split1 = splitData(t, 0);
-            if (split != null && split1!=null) {
+            if ( !split.isBlank() && !split1.isBlank()) {
                 this.series.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split)));
                 this.series1.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split1)));
 //                System.out.println(Double.valueOf(this.simpleDateFormat.format(curentTime))+"--"+ Double.valueOf(split1));
@@ -115,8 +102,8 @@ public class xyGraph {
 //    }
 
     public String splitData(String s, int dataNumber) {
-        String[] split = s.split(",");
-        if (split.length == 2 && !split[0].isEmpty() && !split[1].isEmpty()) {
+        String[] split = s.split(",",0);
+        if (split.length == 2 && !split[0].isBlank() && !split[1].isBlank() && !split[0].isEmpty() && !split[1].isEmpty()) {
             return split[dataNumber];
         }
 
@@ -127,6 +114,16 @@ public class xyGraph {
 
     public void shutDownService(){
         this.scheduledExecutorService.shutdownNow();
+    }
+
+    private void chartColor() {
+        for (XYChart.Data<Number, Number> entry : series1.getData()) {
+            entry.getNode().setStyle("-fx-background-color: blue, white;\n"
+                    + "    -fx-background-insets: 0, 2;\n"
+                    + "    -fx-background-radius: 5px;\n"
+                    + "    -fx-padding: 5px;");
+        }
+        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
     }
 
 }

@@ -109,7 +109,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     public void getDataTest() {
 
-        this.getData().add(this.series);
+//        this.getData().add(this.series);
+        this.setData(FXCollections.observableArrayList(this.series));
 
 
 //        this.rec.toFront();
@@ -195,13 +196,26 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                 xLower-=0.1;
                 xAxis.setUpperBound(xUpper);
                 xAxis.setLowerBound(xLower);
+
             }else {
 //                System.out.println("right ->" +x);
-                xUpper -=0.1;
-                xLower +=0.1;
-                xAxis.setUpperBound(xUpper);
-                xAxis.setLowerBound(xLower);
+                if(xAxis.getUpperBound() > xAxis.getLowerBound()){
+                    xUpper -=0.1;
+                    xLower +=0.1;
+                    xAxis.setUpperBound(xUpper);
+                    xAxis.setLowerBound(xLower);
+
+                }else if(xAxis.getUpperBound() == xAxis.getLowerBound()) {
+                    xUpper -=0;
+                    xLower +=0;
+                    xAxis.setUpperBound(xUpper);
+                    xAxis.setLowerBound(xLower);
+
+                }
+
+
             }
+
             x =e.getX();
 
 
@@ -316,13 +330,17 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     private void vLineStyleOnDrag() {
         vLine.setOnMouseDragged(e->{
            Bounds b = plotArea.getBoundsInLocal();
-            // If the mouse cursor is within the plot area bounds
-            if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
 
 
-                vLine.setStartX(e.getX() - b.getMinX() - 5);
-                vLine.setEndX(e.getX()- b.getMinX()-5);
-            }
+               // If the mouse cursor is within the plot area bounds
+               if (b.getMinX() < e.getX() && e.getX() < b.getMaxX() && b.getMinY() < e.getY() && e.getY() < b.getMaxY()) {
+
+
+                   vLine.setStartX(e.getX() - b.getMinX() - 10);
+                   vLine.setEndX(e.getX() - b.getMinX() - 10);
+
+               }
+
             for (Data<X, Y> data : this.series.getData()) {
                 if (vLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())) {
       //              System.out.println(data.getXValue());
