@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
    <center>
       <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
@@ -50,7 +50,10 @@
             <Insets left="5.0" right="5.0" />
          </opaqueInsets>
          <children>
-            <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnexion" prefHeight="26.0" prefWidth="153.0" text="connexion" />
+            <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnexion" prefHeight="26.0" prefWidth="153.0" text="connexion">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </top>

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public  class PowerShell {
-    public static int main(String[] args,String command) throws IOException {
+    public static int main(String command) throws IOException {
         String command1 = " $port = New-Object System.IO.Ports.SerialPort "+command+", 115200, none, 8, one ";
         String command2 = " $port.open() ";
         String command3 = " $port.ReadExisting()";

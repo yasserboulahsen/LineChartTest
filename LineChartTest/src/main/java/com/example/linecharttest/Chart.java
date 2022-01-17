@@ -329,7 +329,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     private void vLineStyleOnDrag() {
         vLine.setOnMouseDragged(e->{
-           Bounds b = plotArea.getBoundsInLocal();
+            Bounds b = plotArea.getBoundsInLocal();
 
 
                // If the mouse cursor is within the plot area bounds

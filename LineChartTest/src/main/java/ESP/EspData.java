@@ -36,7 +36,7 @@ public class EspData {
 
                 portTest = portName(esp.getDescriptivePortName());
 
-                comLengh = PowerShell.main(null,portTest);
+                comLengh = PowerShell.main(portTest);
                 if(comLengh != -1){
                     System.out.println(esp.getDescriptivePortName());
                     return i;

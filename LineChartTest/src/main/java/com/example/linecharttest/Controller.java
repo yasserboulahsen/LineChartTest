@@ -54,7 +54,7 @@ public class Controller {
     private Chart<Number, Number> chart1 = new Chart<>(xaxis1, yaxis1, label2, xvalue2, series2);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.S");
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.SSS");
 
 
     public void initialize() throws IOException, InterruptedException {
@@ -88,6 +88,7 @@ public class Controller {
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
         chart1.autoResize(true);
         chart.autoResize(true);
+
         esp32[0].openPort();
 
         series1.getData().removeAll(series1.getData());

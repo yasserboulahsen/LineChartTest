@@ -69,7 +69,7 @@ public class xyGraph {
 
             });
 
-        }, -1, period, TimeUnit.MILLISECONDS);
+        }, 0, period, TimeUnit.MILLISECONDS);
 
 
     }
@@ -80,14 +80,14 @@ public class xyGraph {
         try {
             String split = splitData(t, number);
             String split1 = splitData(t, 0);
-            if ( !split.isBlank() && !split1.isBlank()) {
+            if (  split !=null  && split1 !=null) {
                 this.series.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split)));
                 this.series1.getData().add(new XYChart.Data<>(Double.valueOf(this.simpleDateFormat.format(curentTime)), Double.valueOf(split1)));
 //                System.out.println(Double.valueOf(this.simpleDateFormat.format(curentTime))+"--"+ Double.valueOf(split1));
 //                list.add(series);
             }
         } catch (Exception e) {
-            System.out.println("Data is null");
+            System.out.println(e.getMessage());
 
         }
     }

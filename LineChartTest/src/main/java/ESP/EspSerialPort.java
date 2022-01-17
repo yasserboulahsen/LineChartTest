@@ -10,7 +10,7 @@ public class EspSerialPort {
 
 
            SerialPort esp32 = SerialPort.getCommPorts()[EspData.comPort()];
-           ////Serial port config
+           //Serial port config
            //esp.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,0,0);
            esp32.setComPortParameters(115200, 8, 1, 0);
            esp32.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
