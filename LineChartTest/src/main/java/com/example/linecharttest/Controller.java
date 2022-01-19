@@ -19,6 +19,10 @@ import java.text.SimpleDateFormat;
 
 public class Controller {
     @FXML
+    private Label yValue2;
+    @FXML
+    private Label xValue2;
+    @FXML
     private Button curseur;
     @FXML
     private Label xValue;
@@ -206,5 +210,7 @@ public class Controller {
         chart1.crosshair();
         xValue.textProperty().bind(chart.getxValue().textProperty());
         yValue.textProperty().bind(chart.getyVlaue().textProperty());
+        xValue2.textProperty().bind(chart1.getxValue().textProperty());
+        yValue2.textProperty().bind(chart1.getyVlaue().textProperty());
     }
 }
