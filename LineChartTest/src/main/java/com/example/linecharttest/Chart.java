@@ -16,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -38,6 +41,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     private final Line vLine = new Line();
 
     private final ObservableList<Node> points = FXCollections.observableArrayList();
+    private final  ObservableList<Node> slope = FXCollections.observableArrayList();
 
 
 
@@ -71,6 +75,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     private void rectangleAdded(BorderPane borderPane) {
         Rectangle rectangle = new Rectangle(250, 100, Color.valueOf("A9DCDAB8"));
+        Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
+
         ResizeRegion.makeResizable(rectangle, null);
         rectangle.setId("rectangle");
         rectangle.setOnMouseClicked(e -> {
@@ -94,6 +100,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                     data.getNode().getStyleClass().add("recNodeColor");
 
 
+
+
                 }else {
 
                    data.getNode().getStyleClass().remove("recNodeColor");
@@ -102,6 +110,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
 
         });
+
 
 
         getPlotChildren().add(rectangle);
@@ -261,24 +270,27 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                          n.getStyleClass().remove("lineNode");
                             });
 
-
                     points.clear();
+
                 }
 
                     ChangeListener<Number> stageChageListener = ((observable, oldValue, newValue) -> {
 
 //                   System.out.println(this.getWidth() +"/"+ this.getHeight());
 //                    System.out.println(points.get(0).getBoundsInParent().getCenterX()+data.getNode().getBoundsInLocal().getCenterX());
-                        line.setStartX(points.get(0).getBoundsInParent().getCenterX());
-                        line.setStartY(points.get(0).getBoundsInParent().getCenterY());
-                        line.setEndX(points.get(1).getBoundsInParent().getCenterX());
-                        line.setEndY(points.get(1).getBoundsInParent().getCenterY());
+                        if(getPlotChildren().contains(line)) {
+                            line.setStartX(points.get(0).getBoundsInParent().getCenterX());
+                            line.setStartY(points.get(0).getBoundsInParent().getCenterY());
+                            line.setEndX(points.get(1).getBoundsInParent().getCenterX());
+                            line.setEndY(points.get(1).getBoundsInParent().getCenterY());
+                        }
                     });
 
                     this.widthProperty().addListener(stageChageListener);
 
 
                     this.heightProperty().addListener(stageChageListener);
+
 
                 });
 
@@ -305,6 +317,10 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 //
 //         cross.getCrossHair(vLine,hLine);
         getPlotChildren().removeAll(vLine,hLine);
+        hLine.setStyle("-fx-stroke:blue;");
+        vLine.setStyle("-fx-stroke:green;");
+
+
 
             vLine.setStrokeWidth(2);
             hLine.setStrokeWidth(2);
@@ -381,7 +397,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
         });
 
         hLine.setOnMouseEntered(e->{
-            hLine.setStyle("-fx-stroke:red;");
+
             setCursor(Cursor.CROSSHAIR);
         });
         hLine.setOnMouseExited(e->{

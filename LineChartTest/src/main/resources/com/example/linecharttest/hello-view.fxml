@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
    <center>
       <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="showRec" mnemonicParsing="false" onAction="#showRectangle" prefHeight="26.0" prefWidth="104.0" text="Rectangle">
                <VBox.margin>
@@ -26,22 +26,28 @@
                </VBox.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets left="5.0" right="3.0" />
+         </BorderPane.margin>
       </VBox>
    </left>
    <bottom>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="27.0" prefWidth="100.0" text="Start" textFill="#1500ff">
+            <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="25.0" prefWidth="139.0" text="Start" textFill="#1500ff">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="26.0" prefWidth="99.0" text="Stop" textFill="RED">
+            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="25.0" prefWidth="140.0" text="Stop" textFill="RED">
                <HBox.margin>
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
       </HBox>
    </bottom>
    <top>
@@ -60,7 +66,7 @@
    <right>
       <VBox alignment="CENTER" prefHeight="336.0" prefWidth="91.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane alignment="TOP_CENTER">
+            <GridPane alignment="TOP_CENTER" prefHeight="68.0" prefWidth="91.0" style="-fx-border-color: black;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -71,15 +77,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="42.0" text="X : " />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="44.0" text="0" GridPane.columnIndex="1" fx:id="xValue" />
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="42.0" text=" X : " />
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="44.0" text="0" GridPane.columnIndex="1" fx:id="xValue" />
                   <Label alignment="CENTER" prefHeight="30.0" prefWidth="47.0" text="Y : " GridPane.rowIndex="1" />
                   <Label fx:id="yValue" accessibleHelp="valeur de y" alignment="CENTER" prefHeight="27.0" prefWidth="59.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
             </GridPane>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="157.0" prefWidth="91.0">
                <children>
-                  <GridPane alignment="BOTTOM_CENTER">
+                  <GridPane alignment="BOTTOM_CENTER" prefHeight="67.0" prefWidth="91.0" style="-fx-border-color: black;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -91,10 +100,13 @@
                     </rowConstraints>
                      <children>
                         <Label alignment="CENTER" prefHeight="24.0" prefWidth="47.0" text="X :" />
-                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="47.0" text="0" GridPane.columnIndex="1" fx:id="xValue2" />
-                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="47.0" text=" Y :" GridPane.rowIndex="1" />
-                        <Label fx:id="yValue2" alignment="CENTER" prefHeight="24.0" prefWidth="47.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="46.0" text="0" GridPane.columnIndex="1" fx:id="xValue2" />
+                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="47.0" text="Y :" GridPane.rowIndex="1" />
+                        <Label fx:id="yValue2" alignment="CENTER" prefHeight="25.0" prefWidth="46.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </VBox.margin>
                   </GridPane>
                </children>
             </VBox>
