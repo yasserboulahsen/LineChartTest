@@ -55,8 +55,7 @@
      } else {
        // Encoder is rotating clockwise
        counter ++;
-  
-       
+
      }
      
      //Serial.print(" -- Value: ");

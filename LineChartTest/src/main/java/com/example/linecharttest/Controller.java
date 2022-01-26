@@ -100,7 +100,7 @@ public class Controller {
         chart.getData().clear();
         chart1.getData().clear();
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
-        graph.chart(1, 150);
+        graph.chart(1, 100);
 
 
         chart.getDataTest();

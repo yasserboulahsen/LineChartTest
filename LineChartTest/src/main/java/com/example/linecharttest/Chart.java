@@ -75,7 +75,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     private void rectangleAdded(BorderPane borderPane) {
         Rectangle rectangle = new Rectangle(250, 100, Color.valueOf("A9DCDAB8"));
-        Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
+
 
         ResizeRegion.makeResizable(rectangle, null);
         rectangle.setId("rectangle");
