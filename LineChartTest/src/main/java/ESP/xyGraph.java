@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class xyGraph {
 
@@ -57,12 +58,23 @@ public class xyGraph {
                 Scanner data = new Scanner(this.esp32[0].getInputStream());
 
                 if (data.hasNext()) {
-                    //String[] split = t.split(",");
-                    String t = data.nextLine();
+                    //String[] split = outputData.split(",");
+                    String outputData = data.nextLine();
+//                    String force = splitData(outputData,0);
+//                    if(force !=null) {
+//                        boolean isDecimal = Pattern.matches("^[\\+\\-]{0,1}[0-9]+[\\.\\,][0-9]+$", force);
+//                        if(isDecimal) {
+//                            System.out.println(outputData);
+//                            chartsSeries(number, outputData);
+//                        }
+//                    }
 
+
+
+                    chartsSeries(number, outputData);
 
                     //Chart update to series graph
-                    chartsSeries(number, t);
+
 
                 }
 
@@ -102,8 +114,10 @@ public class xyGraph {
 //    }
 
     public String splitData(String s, int dataNumber) {
-        String[] split = s.split(",",0);
-        if (split.length == 2 && !split[0].isBlank() && !split[1].isBlank() && !split[0].isEmpty() && !split[1].isEmpty()) {
+
+        String[] split = s.split("|",0);
+        if (split.length == 2 && !split[0].isBlank() && !split[1].isBlank() && !split[0].isEmpty() && !split[1].isEmpty()
+        && Pattern.matches("^[\\+\\-]?[0-9]+[\\.\\,][0-9]+$", split[0])) {
             return split[dataNumber];
         }
 

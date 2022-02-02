@@ -42,15 +42,16 @@ public class Controller {
 
     private boolean sizeAuto = false;
 
-    private NumberAxis xaxis = new NumberAxis();
-    private NumberAxis yaxis = new NumberAxis(0, 100, 1);
-    private NumberAxis xaxis1 = new NumberAxis();
-    private NumberAxis yaxis1 = new NumberAxis(0, 100, 1);
+    private final NumberAxis xaxis = new NumberAxis();
+    private final NumberAxis yaxis = new NumberAxis(0, 12, 1);
+    private final NumberAxis xaxis1 = new NumberAxis();
+    private final NumberAxis yaxis1 = new NumberAxis(0, 100, 1);
     //    private LineChart<Number,Number> newchart = new LineChart<>(xaxis,yaxis);
     private final Label xvalueLabel = new Label();
     private final Label yvalueLabel = new Label();
     private final Label label2 = new Label();
     private final Label xvalue2 = new Label();
+
     //    private Rectangle rec =
     private XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
     private XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
@@ -100,7 +101,7 @@ public class Controller {
         chart.getData().clear();
         chart1.getData().clear();
         graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
-        graph.chart(1, 100);
+        graph.chart(1, 60);
 
 
         chart.getDataTest();
