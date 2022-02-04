@@ -53,13 +53,13 @@ public class Controller {
     private final Label xvalue2 = new Label();
 
     //    private Rectangle rec =
-    private XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
-    private XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
-    private Chart<Number, Number> chart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, series1);
-    private Chart<Number, Number> chart1 = new Chart<>(xaxis1, yaxis1, label2, xvalue2, series2);
+    private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
+    private final XYChart.Series<Number, Number> speedSeries = new XYChart.Series<>();
+    private final Chart<Number, Number> forceChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries);
+    private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.SSS");
+
 
 
     public void initialize() throws IOException, InterruptedException {
@@ -73,39 +73,41 @@ public class Controller {
 //     xaxis.setLabel("X");
         start.setDisable(true);
         borderPane.setCenter(vbox);
-        vbox.getChildren().addAll(chart, chart1);
+        vbox.getChildren().addAll(forceChart, speedChart);
 
 //    chartTest.showRecTangle(false);
-        series1.setName("Force");
-        series2.setName("Speed");
-        chart.setAnimated(false);
-        chart1.setAnimated(false);
-        chart1.autoResize(true);
-        chart.autoResize(true);
-        chart.setCreateSymbols(true);
-        chart1.setCreateSymbols(true);
-        chart1.setId("chart1");
-        chart1.setId("chart");
+        forceSeries.setName("Force");
+        speedSeries.setName("Speed");
+        forceChart.setAnimated(false);
+        speedChart.setAnimated(false);
+        speedChart.autoResize(true);
+        forceChart.autoResize(true);
+        forceChart.setCreateSymbols(true);
+        speedChart.setCreateSymbols(true);
+        speedChart.setId("chart1");
+        speedChart.setId("chart");
 
 
     }
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
-        chart1.autoResize(true);
-        chart.autoResize(true);
+        speedChart.autoResize(true);
+        forceChart.autoResize(true);
+
 
         esp32[0].openPort();
 
-        series1.getData().removeAll(series1.getData());
-        series2.getData().removeAll(series2.getData());
-        chart.getData().clear();
-        chart1.getData().clear();
-        graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
+        forceSeries.getData().removeAll(forceSeries.getData());
+        speedSeries.getData().removeAll(speedSeries.getData());
+        forceChart.getData().clear();
+        speedChart.getData().clear();
+        graph = new xyGraph(esp32, speedSeries, forceSeries);
         graph.chart(1, 60);
 
+        forceChart.getDataSeries();
+        speedChart.getDataSeries();
 
-        chart.getDataTest();
-        chart1.getDataTest();
+
 //        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
 //        series1.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: blue");
 
@@ -120,8 +122,8 @@ public class Controller {
     }
 
     public void showRectangle(ActionEvent actionEvent) {
-        chart.addnewRectangle(borderPane);
-        chart1.addnewRectangle(borderPane);
+        forceChart.addnewRectangle(borderPane);
+        speedChart.addnewRectangle(borderPane);
 //     chartTest1.showRecTangle(true);
 //     chartTest.showRecTangle(true);
 
@@ -132,17 +134,17 @@ public class Controller {
     public void onAutoSize(ActionEvent actionEvent) {
         sizeAuto = !sizeAuto;
 
-        chart1.autoResize(sizeAuto);
-        chart.autoResize(sizeAuto);
+        speedChart.autoResize(sizeAuto);
+        forceChart.autoResize(sizeAuto);
 
 
     }
 
     public void onStop(ActionEvent actionEvent) {
-        chart1.autoResize(false);
-        chart.autoResize(false);
-        chart1.getLine().toFront();
-        chart.getLine().toFront();
+        speedChart.autoResize(false);
+        forceChart.autoResize(false);
+        speedChart.getLine().toFront();
+        forceChart.getLine().toFront();
 //        chart1.setOnMouseEntered(e -> {
 //            chart1.setStyle("-fx-background-color:rgba(0, 0, 0, 0.05)");
 //
@@ -207,11 +209,11 @@ public class Controller {
     }
 
     public void onCursor(ActionEvent actionEvent) {
-        chart.crosshair();
-        chart1.crosshair();
-        xValue.textProperty().bind(chart.getxValue().textProperty());
-        yValue.textProperty().bind(chart.getyVlaue().textProperty());
-        xValue2.textProperty().bind(chart1.getxValue().textProperty());
-        yValue2.textProperty().bind(chart1.getyVlaue().textProperty());
+        forceChart.crosshair();
+        speedChart.crosshair();
+        xValue.textProperty().bind(forceChart.getxValue().textProperty());
+        yValue.textProperty().bind(forceChart.getyVlaue().textProperty());
+        xValue2.textProperty().bind(speedChart.getxValue().textProperty());
+        yValue2.textProperty().bind(speedChart.getyVlaue().textProperty());
     }
 }
