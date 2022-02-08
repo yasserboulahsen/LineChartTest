@@ -2,9 +2,13 @@ package ESP;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -14,31 +18,30 @@ import java.util.regex.Pattern;
 public class xyGraph {
 
     private final SerialPort[] esp32;
-
     private final XYChart.Series<Number, Number> series;
     private final XYChart.Series<Number, Number> series1;
     private final ScheduledExecutorService scheduledExecutorService;
     public static List<XYChart.Series<String,Number>> list = new ArrayList<>();
-
+    private Double battery;
+    private ProgressBar progressBar;
     private double timeInSecond =0;
     private final Date previuosTime = new Date();
     private final Date curentTime = new Date();
 
 
-    public xyGraph(SerialPort[] esp32, XYChart.Series<Number, Number> series, XYChart.Series<Number, Number> series1) {
+    public xyGraph(SerialPort[] esp32, XYChart.Series<Number, Number> series, XYChart.Series<Number, Number> series1,ProgressBar progressBar) {
         this.esp32 = esp32;
-
         this.series1 = series1;
         this.scheduledExecutorService =  new ScheduledThreadPoolExecutor(1);//Executors.newScheduledThreadPool(1);
         this.series = series;
-
-
-
+        this.progressBar =progressBar;
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
         return scheduledExecutorService;
     }
+
+
 
 
     public void chart(int number, int period) {
@@ -47,9 +50,6 @@ public class xyGraph {
 
             Platform.runLater(() -> {
 
-
-//               chartColor();//color of chart changes to blue
-
                 // get current time
                 Date nowTime = new Date();
 //                curentTime.setTime(nowTime.getTime() - previuosTime.getTime());
@@ -57,26 +57,18 @@ public class xyGraph {
                 Scanner data = new Scanner(this.esp32[0].getInputStream());
 
                 if (data.hasNext()) {
-                    //String[] split = outputData.split(",");
                     String outputData = data.nextLine();
-//                    String force = splitData(outputData,0);
-//                    if(force !=null) {
-//                        boolean isDecimal = Pattern.matches("^[\\+\\-]{0,1}[0-9]+[\\.\\,][0-9]+$", force);
-//                        if(isDecimal) {
-//                            System.out.println(outputData);
-//                            chartsSeries(number, outputData);
-//                        }
-//                    }
-
-
-
                     chartsSeries(number, outputData);
 
                     //Chart update to series graph
+                    if(battery!=null) {
 
-
+                        this.progressBar.progressProperty().setValue(battery / 4);
+                        if(battery<3.){
+                        this.progressBar.setStyle("-fx-accent:red");
+                        }
+                    }
                 }
-
 
             });
 
@@ -92,12 +84,15 @@ public class xyGraph {
         try {
             String split = splitData(t, number);
             String split1 = splitData(t, 0);
-            if (  split !=null  && split1 !=null) {
+            String batterySplit =  splitData(t,2);
+            if (  split !=null  && split1 !=null && batterySplit !=null) {
 
                 this.series.getData().add(new XYChart.Data<>(timeInSecond, Double.valueOf(split)));
                 this.series1.getData().add(new XYChart.Data<>(timeInSecond, Double.valueOf(split1)));
 //               System.out.println(this.simpleDateFormat.format(curentTime)+"--"+ Double.valueOf(split1));
 //                list.add(series);
+                this.battery = Double.parseDouble(batterySplit);
+
             }
 
         } catch (Exception e) {
@@ -118,7 +113,7 @@ public class xyGraph {
     public String splitData(String s, int dataNumber) {
 
         String[] split = s.split(";",0);
-        if (split.length == 2 && !split[0].isBlank() && !split[1].isBlank() && !split[0].isEmpty() && !split[1].isEmpty()
+        if (split.length == 3 && !split[0].isBlank() && !split[1].isBlank() && !split[0].isEmpty() && !split[1].isEmpty()
         && Pattern.matches("^[\\+\\-]?[0-9]+[\\.\\,][0-9]+$", split[0])) {
             return split[dataNumber];
         }
@@ -126,20 +121,18 @@ public class xyGraph {
         return null;
     }
 
-
-
     public void shutDownService(){
         this.scheduledExecutorService.shutdownNow();
     }
 
-    private void chartColor() {
-        for (XYChart.Data<Number, Number> entry : series1.getData()) {
-            entry.getNode().setStyle("-fx-background-color: blue, white;\n"
-                    + "    -fx-background-insets: 0, 2;\n"
-                    + "    -fx-background-radius: 5px;\n"
-                    + "    -fx-padding: 5px;");
-        }
-        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
-    }
+//    private void chartColor() {
+//        for (XYChart.Data<Number, Number> entry : series1.getData()) {
+//            entry.getNode().setStyle("-fx-background-color: blue, white;\n"
+//                    + "    -fx-background-insets: 0, 2;\n"
+//                    + "    -fx-background-radius: 5px;\n"
+//                    + "    -fx-padding: 5px;");
+//        }
+//        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
+//    }
 
 }

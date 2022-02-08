@@ -1,9 +1,12 @@
 package com.example.linecharttest;
 
+import ESP.EspData;
 import ESP.EspSerialPort;
 import ESP.xyGraph;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.NumberAxis;
@@ -11,6 +14,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -18,6 +22,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class Controller {
+    @FXML
+    private Label batteryLabel;
+    @FXML
+    private ProgressBar battery;
     @FXML
     private Label yValue2;
     @FXML
@@ -52,6 +60,9 @@ public class Controller {
     private final Label label2 = new Label();
     private final Label xvalue2 = new Label();
 
+    // progressBar
+    private ProgressBar progressBar = new ProgressBar();
+
     //    private Rectangle rec =
     private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
     private final XYChart.Series<Number, Number> speedSeries = new XYChart.Series<>();
@@ -59,6 +70,8 @@ public class Controller {
     private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
+
+    private SimpleDoubleProperty batteryLevel;
 
 
 
@@ -86,7 +99,7 @@ public class Controller {
         speedChart.setCreateSymbols(true);
         speedChart.setId("chart1");
         speedChart.setId("chart");
-
+        battery.progressProperty().setValue(1);
 
     }
 
@@ -101,11 +114,17 @@ public class Controller {
         speedSeries.getData().removeAll(speedSeries.getData());
         forceChart.getData().clear();
         speedChart.getData().clear();
-        graph = new xyGraph(esp32, speedSeries, forceSeries);
+        graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
         graph.chart(1, 60);
 
+
+//        System.out.println(batteryLevel.getValue());
         forceChart.getDataSeries();
         speedChart.getDataSeries();
+
+        battery.progressProperty().bind(progressBar.progressProperty());
+        battery.styleProperty().bind(progressBar.styleProperty());
+
 
 
 //        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
@@ -169,6 +188,7 @@ public class Controller {
     }
 
     public void onConnexion(ActionEvent actionEvent) {
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
 //        for(double i = 0.0 ;i <= 1.0; i += 0.1){
 //            progress.setProgress(i);
@@ -182,6 +202,7 @@ public class Controller {
 
                 connect.setStyle("-fx-background-color: #008000");
                 connect.setDisable(true);
+
                 //Platform.runLater(() -> progress.setProgress(1.0));
             } catch (Exception e) {
                 Platform.runLater(() -> {

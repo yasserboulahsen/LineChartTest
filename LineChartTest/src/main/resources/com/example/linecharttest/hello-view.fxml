@@ -25,11 +25,6 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
             </Button>
-            <ProgressBar fx:id="battery" prefHeight="18.0" prefWidth="68.0" progress="0.0" rotate="90.0">
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </ProgressBar>
          </children>
          <BorderPane.margin>
             <Insets left="5.0" right="3.0" />
@@ -61,10 +56,15 @@
             <Insets left="5.0" right="5.0" />
          </opaqueInsets>
          <children>
-            <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnexion" prefHeight="26.0" prefWidth="153.0" text="connexion">
+            <AnchorPane prefHeight="27.0" prefWidth="1400.0">
+               <children>
+                  <Button fx:id="connect" layoutX="479.0" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="24.0" text="connexion" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="1.0" />
+                  <ProgressBar fx:id="battery" layoutX="538.0" layoutY="4.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="95.0" progress="0.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="4.0" />
+               </children>
                <HBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </HBox.margin></Button>
+                  <Insets bottom="3.0" top="3.0" />
+               </HBox.margin>
+            </AnchorPane>
          </children>
       </HBox>
    </top>
