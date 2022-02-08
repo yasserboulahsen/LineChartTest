@@ -11,7 +11,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -19,8 +18,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class Controller {
-    @FXML
-    private ProgressBar battery;
     @FXML
     private Label yValue2;
     @FXML
@@ -56,13 +53,13 @@ public class Controller {
     private final Label xvalue2 = new Label();
 
     //    private Rectangle rec =
-    private XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
-    private XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
-    private Chart<Number, Number> speedChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, series1);
-    private Chart<Number, Number> forceChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, series2);
+    private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
+    private final XYChart.Series<Number, Number> speedSeries = new XYChart.Series<>();
+    private final Chart<Number, Number> forceChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries);
+    private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss.SSS");
+
 
 
     public void initialize() throws IOException, InterruptedException {
@@ -76,41 +73,41 @@ public class Controller {
 //     xaxis.setLabel("X");
         start.setDisable(true);
         borderPane.setCenter(vbox);
-        vbox.getChildren().addAll(speedChart, forceChart);
+        vbox.getChildren().addAll(forceChart, speedChart);
 
 //    chartTest.showRecTangle(false);
-        series1.setName("Force");
-        series2.setName("Speed");
-        speedChart.setAnimated(false);
+        forceSeries.setName("Force");
+        speedSeries.setName("Speed");
         forceChart.setAnimated(false);
-        forceChart.autoResize(true);
+        speedChart.setAnimated(false);
         speedChart.autoResize(true);
-        speedChart.setCreateSymbols(true);
+        forceChart.autoResize(true);
         forceChart.setCreateSymbols(true);
-        forceChart.setId("chart1");
-        forceChart.setId("chart");
-        battery.setStyle("-fx-accent: red");
-        battery.setProgress(0.6);
+        speedChart.setCreateSymbols(true);
+        speedChart.setId("chart1");
+        speedChart.setId("chart");
 
 
     }
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
-        forceChart.autoResize(true);
         speedChart.autoResize(true);
+        forceChart.autoResize(true);
+
 
         esp32[0].openPort();
 
-        series1.getData().removeAll(series1.getData());
-        series2.getData().removeAll(series2.getData());
-        speedChart.getData().clear();
+        forceSeries.getData().removeAll(forceSeries.getData());
+        speedSeries.getData().removeAll(speedSeries.getData());
         forceChart.getData().clear();
-        graph = new xyGraph(esp32, simpleDateFormat, series2, series1);
+        speedChart.getData().clear();
+        graph = new xyGraph(esp32, speedSeries, forceSeries);
         graph.chart(1, 60);
 
+        forceChart.getDataSeries();
+        speedChart.getDataSeries();
 
-        speedChart.getDataTest();
-        forceChart.getDataTest();
+
 //        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
 //        series1.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: blue");
 
@@ -125,8 +122,8 @@ public class Controller {
     }
 
     public void showRectangle(ActionEvent actionEvent) {
-        speedChart.addnewRectangle(borderPane);
         forceChart.addnewRectangle(borderPane);
+        speedChart.addnewRectangle(borderPane);
 //     chartTest1.showRecTangle(true);
 //     chartTest.showRecTangle(true);
 
@@ -137,17 +134,17 @@ public class Controller {
     public void onAutoSize(ActionEvent actionEvent) {
         sizeAuto = !sizeAuto;
 
-        forceChart.autoResize(sizeAuto);
         speedChart.autoResize(sizeAuto);
+        forceChart.autoResize(sizeAuto);
 
 
     }
 
     public void onStop(ActionEvent actionEvent) {
-        forceChart.autoResize(false);
         speedChart.autoResize(false);
-        forceChart.getLine().toFront();
+        forceChart.autoResize(false);
         speedChart.getLine().toFront();
+        forceChart.getLine().toFront();
 //        chart1.setOnMouseEntered(e -> {
 //            chart1.setStyle("-fx-background-color:rgba(0, 0, 0, 0.05)");
 //
@@ -212,11 +209,11 @@ public class Controller {
     }
 
     public void onCursor(ActionEvent actionEvent) {
-        speedChart.crosshair();
         forceChart.crosshair();
-        xValue.textProperty().bind(speedChart.getxValue().textProperty());
-        yValue.textProperty().bind(speedChart.getyVlaue().textProperty());
-        xValue2.textProperty().bind(forceChart.getxValue().textProperty());
-        yValue2.textProperty().bind(forceChart.getyVlaue().textProperty());
+        speedChart.crosshair();
+        xValue.textProperty().bind(forceChart.getxValue().textProperty());
+        yValue.textProperty().bind(forceChart.getyVlaue().textProperty());
+        xValue2.textProperty().bind(speedChart.getxValue().textProperty());
+        yValue2.textProperty().bind(speedChart.getyVlaue().textProperty());
     }
 }
