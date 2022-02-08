@@ -25,6 +25,11 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
             </Button>
+            <ProgressBar fx:id="battery" prefHeight="18.0" prefWidth="68.0" progress="0.0" rotate="90.0">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </ProgressBar>
          </children>
          <BorderPane.margin>
             <Insets left="5.0" right="3.0" />
