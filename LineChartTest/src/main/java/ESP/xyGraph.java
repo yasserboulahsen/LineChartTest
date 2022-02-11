@@ -2,14 +2,13 @@ package ESP;
 
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ public class xyGraph {
     private final ScheduledExecutorService scheduledExecutorService;
     public static List<XYChart.Series<String,Number>> list = new ArrayList<>();
     private Double battery;
-    private ProgressBar progressBar;
+    private final ProgressBar progressBar;
     private double timeInSecond =0;
     private final Date previuosTime = new Date();
     private final Date curentTime = new Date();
@@ -63,8 +62,8 @@ public class xyGraph {
                     //Chart update to series graph
                     if(battery!=null) {
 
-                        this.progressBar.progressProperty().setValue(battery / 4);
-                        if(battery<3.){
+                        this.progressBar.progressProperty().setValue((battery-3)/0.7);
+                        if(battery<3.0){
                         this.progressBar.setStyle("-fx-accent:red");
                         }
                     }

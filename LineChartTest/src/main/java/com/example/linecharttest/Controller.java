@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -70,6 +71,7 @@ public class Controller {
     private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
+    public static SerialPort closedesp32;
 
     private SimpleDoubleProperty batteryLevel;
 
@@ -103,6 +105,7 @@ public class Controller {
 
     }
 
+
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
         speedChart.autoResize(true);
         forceChart.autoResize(true);
@@ -115,7 +118,7 @@ public class Controller {
         forceChart.getData().clear();
         speedChart.getData().clear();
         graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
-        graph.chart(1, 60);
+        graph.chart(1, 120);
 
 
 //        System.out.println(batteryLevel.getValue());
@@ -164,6 +167,7 @@ public class Controller {
         forceChart.autoResize(false);
         speedChart.getLine().toFront();
         forceChart.getLine().toFront();
+
 //        chart1.setOnMouseEntered(e -> {
 //            chart1.setStyle("-fx-background-color:rgba(0, 0, 0, 0.05)");
 //
@@ -181,6 +185,9 @@ public class Controller {
 
 
         try {
+//             String command = "test";
+//             esp32[0].writeBytes(command.getBytes(),command.length());
+//            esp32[0].closePort();
             graph.shutDownService();
         } catch (Exception e) {
             System.out.println("not cennected");
@@ -198,6 +205,9 @@ public class Controller {
             try {
 
                 esp32[0] = EspSerialPort.getSerialPort();
+
+                closedesp32 = esp32[0];
+                System.out.println(closedesp32.isOpen());
                 start.setDisable(false);
 
                 connect.setStyle("-fx-background-color: #008000");
