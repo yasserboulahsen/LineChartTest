@@ -207,7 +207,7 @@ public class Controller {
                 esp32[0] = EspSerialPort.getSerialPort();
 
                 closedesp32 = esp32[0];
-                System.out.println(closedesp32.isOpen());
+
                 start.setDisable(false);
 
                 connect.setStyle("-fx-background-color: #008000");
