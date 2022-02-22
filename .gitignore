@@ -1,0 +1,22 @@
+# Exclure les fichiers .class
+*.class
+
+# IntelliJ
+*.idea
+/out
+/target
+
+# Log file
+*.log
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
