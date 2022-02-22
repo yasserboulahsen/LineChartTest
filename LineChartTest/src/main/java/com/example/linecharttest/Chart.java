@@ -307,9 +307,16 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
 
     }
+    public void addCrossRectangle(){
+        Rectangle crossRec = new Rectangle(20,20);
+        getPlotChildren().add(crossRec);
+    }
+
     public void crosshair(){
 
+       CrossRectangle rectangle  = new CrossRectangle();
 
+       getPlotChildren().add(rectangle);
 //        final NumberAxis xAxis = (NumberAxis) this.getXAxis();
 //        final NumberAxis yAxis =(NumberAxis) this.getYAxis();
 //         Crosshair<X,Y> cross =  new Crosshair<X,Y>((Axis<X>) xAxis, (Axis<Y>) yAxis,plotArea,series,label);
@@ -388,6 +395,7 @@ public class Chart<X, Y> extends LineChart<X,Y> {
                     xyData.getNode().setStyle("-fx-background-insets: 0,6");
                 }else{
                     xyData.getNode().setStyle(null);
+
                 }
                 return false;
             });
