@@ -315,7 +315,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     public void crosshair(){
 
        CrossRectangle rectangle  = new CrossRectangle();
-
+        rectangle.setLayoutX(getBoundsInLocal().getWidth()/2-10);
+        rectangle.setLayoutY(getBoundsInLocal().getHeight()/2 -10);
        getPlotChildren().add(rectangle);
 //        final NumberAxis xAxis = (NumberAxis) this.getXAxis();
 //        final NumberAxis yAxis =(NumberAxis) this.getYAxis();
