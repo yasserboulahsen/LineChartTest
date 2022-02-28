@@ -5,6 +5,10 @@ import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ProgressBar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +30,7 @@ public class xyGraph {
     private double timeInSecond =0;
     private final Date previuosTime = new Date();
     private final Date curentTime = new Date();
+    private  BufferedReader input;
 
 
     public xyGraph(SerialPort[] esp32, XYChart.Series<Number, Number> series, XYChart.Series<Number, Number> series1,ProgressBar progressBar) {
@@ -54,7 +59,13 @@ public class xyGraph {
 //                curentTime.setTime(nowTime.getTime() - previuosTime.getTime());
                 timeInSecond = ((double)(nowTime.getTime() - previuosTime.getTime())/1000);
                 Scanner data = new Scanner(this.esp32[0].getInputStream());
+                 input =  new BufferedReader(new InputStreamReader(this.esp32[0].getInputStream()));
+                try {
+                    System.out.println(input.readLine());
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if (data.hasNext()) {
                     String outputData = data.nextLine();
                     chartsSeries(number, outputData);
