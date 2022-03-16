@@ -11,20 +11,11 @@ public class CrossRectangle extends Rectangle {
   Group plotArea;
     //@TODO add line to rectangle
     public CrossRectangle(Group plotArea) {
-         this.plotArea = plotArea;
-        this.setHeight(20);
-        this.setWidth(20);
+        this.plotArea = plotArea;
+        this.setHeight(25);
+        this.setWidth(25);
         this.setStroke(Color.BLACK);
         this.setFill(Color.TRANSPARENT);
-        Line hLine = new Line();
-        hLine.setStartX(this.getLayoutBounds().getCenterX());
-        hLine.setStartY(this.getLayoutBounds().getCenterY());
-        hLine.setEndX(this.getBoundsInLocal().getWidth());
-        hLine.setEndY(this.getBoundsInLocal().getHeight());
-        hLine.setScaleX(2);
-        hLine.setScaleY(2);
-
-
 
     }
 

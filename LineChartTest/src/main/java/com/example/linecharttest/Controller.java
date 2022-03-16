@@ -118,7 +118,7 @@ public class Controller {
         forceChart.getData().clear();
         speedChart.getData().clear();
         graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
-        graph.chart(1, 60);
+        graph.chart(1, 25);
 
 
 //        System.out.println(batteryLevel.getValue());
