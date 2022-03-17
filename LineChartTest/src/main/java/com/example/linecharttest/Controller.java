@@ -107,6 +107,7 @@ public class Controller {
 
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
+        start.setDisable(true);
         speedChart.autoResize(true);
         forceChart.autoResize(true);
 
@@ -118,7 +119,7 @@ public class Controller {
         forceChart.getData().clear();
         speedChart.getData().clear();
         graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
-        graph.chart(1, 25);
+        graph.chart(1, 27);
 
 
 //        System.out.println(batteryLevel.getValue());
@@ -163,6 +164,7 @@ public class Controller {
     }
 
     public void onStop(ActionEvent actionEvent) {
+        start.setDisable(false);
         speedChart.autoResize(false);
         forceChart.autoResize(false);
         speedChart.getLine().toFront();

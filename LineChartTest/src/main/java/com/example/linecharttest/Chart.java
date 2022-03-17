@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class Chart<X, Y> extends LineChart<X,Y> {
 
-    private ObservableList<Rectangle> recs = FXCollections.observableArrayList();
+    private final ObservableList<Rectangle> recs = FXCollections.observableArrayList();
 
 
     private Group plotArea;

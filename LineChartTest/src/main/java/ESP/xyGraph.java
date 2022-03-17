@@ -58,7 +58,7 @@ public class xyGraph {
                 Date nowTime = new Date();
 //                curentTime.setTime(nowTime.getTime() - previuosTime.getTime());
                 timeInSecond = ((double)(nowTime.getTime() - previuosTime.getTime())/1000);
-                Scanner data = new Scanner(this.esp32[0].getInputStream());
+//                Scanner data = new Scanner(this.esp32[0].getInputStream());
                  input =  new BufferedReader(new InputStreamReader(this.esp32[0].getInputStream()));
                 try {
                     System.out.println(input.readLine());
@@ -66,9 +66,13 @@ public class xyGraph {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (data.hasNext()) {
-                    String outputData = data.nextLine();
-                    chartsSeries(number, outputData);
+//                if (data.hasNext()) {
+//                    String outputData = data.nextLine();
+                    try {
+                        chartsSeries(number, input.readLine());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     //Chart update to series graph
                     if(battery!=null) {
@@ -78,7 +82,7 @@ public class xyGraph {
                         this.progressBar.setStyle("-fx-accent:red");
                         }
                     }
-                }
+//                }
 
             });
 
