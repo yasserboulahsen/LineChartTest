@@ -60,12 +60,7 @@ public class xyGraph {
                 timeInSecond = ((double)(nowTime.getTime() - previuosTime.getTime())/1000);
 //                Scanner data = new Scanner(this.esp32[0].getInputStream());
                  input =  new BufferedReader(new InputStreamReader(this.esp32[0].getInputStream()));
-                try {
-                    System.out.println(input.readLine());
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 //                if (data.hasNext()) {
 //                    String outputData = data.nextLine();
                     try {
