@@ -9,18 +9,19 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.print.*;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 public class Controller {
     @FXML
@@ -84,8 +85,8 @@ public class Controller {
 //     newchart.setAnimated(false);
 //     rec.setFill(Color.rgb(0,0,255,0.72));
 //    borderPane.getChildren().add(chartTest);
-
 //     xaxis.setLabel("X");
+
         start.setDisable(true);
         borderPane.setCenter(vbox);
         vbox.getChildren().addAll(forceChart, speedChart);
@@ -119,7 +120,7 @@ public class Controller {
         forceChart.getData().clear();
         speedChart.getData().clear();
         graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
-        graph.chart(1, 27);
+        graph.chart(1, 25);
 
 
 //        System.out.println(batteryLevel.getValue());
@@ -248,5 +249,77 @@ public class Controller {
         yValue.textProperty().bind(forceChart.getyVlaue().textProperty());
         xValue2.textProperty().bind(speedChart.getxValue().textProperty());
         yValue2.textProperty().bind(speedChart.getyVlaue().textProperty());
+    }
+    @FXML
+    public void printButton() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        System.out.println("print methode has been called");
+        dialog.initOwner(borderPane.getScene().getWindow());
+        dialog.setTitle("Test Print");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialog<ButtonType> dialog = new Dialog<>();
+
+                System.out.println("print methode has been called");
+                dialog.initOwner(borderPane.getScene().getWindow());
+                dialog.setTitle("Test Print");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("printDocument.fxml"));
+                try {
+                    //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("todoItemDialog.fxml")));
+                    dialog.getDialogPane().setContent(fxmlLoader.load());
+                } catch (IOException e) {
+                    System.out.println("Couldn't load the dialog");
+                    e.printStackTrace();
+                    return;
+                }
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+                Optional<ButtonType> result = dialog.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    printDocument ducument = fxmlLoader.getController();
+                    System.out.println(ducument.nom());
+                    System.out.println("OK");
+//                    isSelected.setText("Nom : " + ducument.nom() + ",Groupe : " + ducument.group() +
+//                            ",Masee :" + ducument.masse());
+
+
+//                    ObservableSet<Printer> printers = Printer.getAllPrinters();
+//                    for(Printer printer: printers){
+//                        System.out.println(printer.getName());
+//                    }
+                    //@TODO fix the printing function and create a new scene !!!
+                    printingSeting();
+
+
+                }
+
+            }
+        });
+
+    }
+    private void printingSeting() {
+        Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout
+                = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
+        PrinterAttributes attr = printer.getPrinterAttributes();
+        PrinterJob job = PrinterJob.createPrinterJob();
+        double scaleX
+                = pageLayout.getPrintableWidth() / borderPane.getBoundsInParent().getWidth();
+        double scaleY
+                = pageLayout.getPrintableHeight() / borderPane.getBoundsInParent().getHeight();
+        Scale scale = new Scale(scaleX, scaleY);
+        borderPane.getTransforms().add(scale);
+
+        if (job != null && job.showPrintDialog(borderPane.getScene().getWindow())) {
+            boolean success = job.printPage(pageLayout, borderPane);
+            if (success) {
+                job.endJob();
+
+            }
+        }
+        borderPane.getTransforms().remove(scale);
     }
 }
