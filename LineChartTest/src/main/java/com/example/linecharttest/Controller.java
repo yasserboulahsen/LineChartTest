@@ -63,7 +63,7 @@ public class Controller {
     private final Label xvalue2 = new Label();
 
     // progressBar
-    private ProgressBar progressBar = new ProgressBar();
+    private final ProgressBar progressBar = new ProgressBar();
 
     //    private Rectangle rec =
     private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
@@ -123,7 +123,7 @@ public class Controller {
         graph.chart(1, 25);
 
 
-//        System.out.println(batteryLevel.getValue());
+
         forceChart.getDataSeries();
         speedChart.getDataSeries();
 
@@ -132,15 +132,7 @@ public class Controller {
 
 
 
-//        series1.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: blue;");
-//        series1.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: blue");
 
-
-//         chartTest.getData().add(series1);
-//         chart.getData().add(series);
-
-
-//        label.setText("Starting");
 
 
     }
@@ -148,8 +140,7 @@ public class Controller {
     public void showRectangle(ActionEvent actionEvent) {
         forceChart.addnewRectangle(borderPane);
         speedChart.addnewRectangle(borderPane);
-//     chartTest1.showRecTangle(true);
-//     chartTest.showRecTangle(true);
+
 
 
 
@@ -171,26 +162,10 @@ public class Controller {
         speedChart.getLine().toFront();
         forceChart.getLine().toFront();
 
-//        chart1.setOnMouseEntered(e -> {
-//            chart1.setStyle("-fx-background-color:rgba(0, 0, 0, 0.05)");
-//
-//        });
-//        chart1.setOnMouseExited(e -> {
-//
-//            chart1.setStyle(null);
-//        });
-//        chart.setOnMouseEntered(e -> {
-//            chart.setStyle("-fx-background-color:rgba(0, 0, 0, 0.05)");
-//        });
-//        chart.setOnMouseExited(e -> {
-//            chart.setStyle(null);
-//        });
 
 
         try {
-//             String command = "test";
-//             esp32[0].writeBytes(command.getBytes(),command.length());
-//            esp32[0].closePort();
+
             graph.shutDownService();
         } catch (Exception e) {
             System.out.println("not cennected");
@@ -321,5 +296,11 @@ public class Controller {
             }
         }
         borderPane.getTransforms().remove(scale);
+    }
+
+
+    public void onCross(ActionEvent actionEvent) {
+
+        forceChart.showCross();
     }
 }

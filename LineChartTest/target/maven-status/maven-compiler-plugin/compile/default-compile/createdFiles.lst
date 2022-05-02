@@ -9,6 +9,7 @@ com\example\linecharttest\Crosshair.class
 com\example\linecharttest\ResizeRegion$3.class
 com\example\linecharttest\Main.class
 com\example\linecharttest\Chart.class
+com\example\linecharttest\CrossRectangle.class
 ESP\PowerShell.class
 module-info.class
 com\example\linecharttest\ResizeRegion$2.class

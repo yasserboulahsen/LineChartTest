@@ -312,11 +312,18 @@ public class Chart<X, Y> extends LineChart<X,Y> {
         getPlotChildren().add(crossRec);
     }
 
-    public void crosshair(){
-
-       CrossRectangle rectangle  = new CrossRectangle(plotArea);
+    public void showCross(){
+        CrossRectangle rectangle  = new CrossRectangle(plotArea);
         rectangle.setLayoutX(getBoundsInLocal().getWidth()/2-10);
         rectangle.setLayoutY(getBoundsInLocal().getHeight()/2 -10);
+        getPlotChildren().add(rectangle);
+
+    }
+
+
+    public void crosshair(){
+
+
 
 //        final NumberAxis xAxis = (NumberAxis) this.getXAxis();
 //        final NumberAxis yAxis =(NumberAxis) this.getYAxis();
@@ -345,10 +352,10 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
         vLineStyleOnDrag();
         hLineStyleOnDrag();
-        rectangle.mouseDaraged();
 
 
-        getPlotChildren().addAll(hLine,vLine,rectangle);
+
+        getPlotChildren().addAll(hLine,vLine);
     }
 
     private void vLineStyleOnDrag() {
