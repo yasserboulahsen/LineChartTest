@@ -126,24 +126,18 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     @Override
     protected void layoutPlotChildren() {
-
+        super.layoutPlotChildren();
     final NumberAxis xAxis = (NumberAxis) this.getXAxis();
     final NumberAxis yAxis =(NumberAxis) this.getYAxis();
 
 
-        super.layoutPlotChildren();
+
         if (plotArea == null && !getPlotChildren().isEmpty()) {
             Group plotContent = (Group) getPlotChildren().get(0).getParent();
             plotArea = (Group) plotContent.getParent();
         }
         Platform.runLater(this::drawLine);
         Platform.runLater(()-> zoomAxis(xAxis, yAxis));
-
-
-
-
-
-
 
     }
 
@@ -313,10 +307,10 @@ public class Chart<X, Y> extends LineChart<X,Y> {
     }
 
     public void showCross(){
-        CrossRectangle rectangle  = new CrossRectangle(plotArea);
-        rectangle.setLayoutX(getBoundsInLocal().getWidth()/2-10);
-        rectangle.setLayoutY(getBoundsInLocal().getHeight()/2 -10);
-        getPlotChildren().add(rectangle);
+
+        Group group = new Group();
+        CursorRectangle cursorRectangle = new CursorRectangle(group,this);
+        getPlotChildren().add(cursorRectangle.getCross());
 
     }
 

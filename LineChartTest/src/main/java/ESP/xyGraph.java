@@ -73,7 +73,7 @@ public class xyGraph {
                     if(battery!=null) {
 
                         this.progressBar.progressProperty().setValue((battery-3)/0.7);
-                        if(battery<3.0){
+                        if(battery<3){
                         this.progressBar.setStyle("-fx-accent:red");
                         }
                     }

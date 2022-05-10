@@ -125,5 +125,4 @@ void loop() {
  
   delay(10);
   SerialBT.flush();
-
 }
