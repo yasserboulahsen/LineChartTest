@@ -1,49 +1,64 @@
 package com.example.linecharttest;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
-import javax.swing.event.ChangeListener;
 
 
-public class CursorRectangle {
-    double x = 200;
+
+public class CursorRectangle extends Pane {
+
     private RectangleCross rectangleCross;
-    private Line line;
-    private Group group;
+    private Line verticalLine;
+    private Line horizontalLine;
+    private Pane pane;
+
+    private Label label;
 
     double initialSceneX, initialSceneY;
     double initialTranslateX, initialTranslateY;
 
+
     private Node node;
 
-    public CursorRectangle(Group group, Node node) {
+    public CursorRectangle(Pane pane, Node node) {
         this.node = node;
-        this.group = group;
+        this.pane = pane;
         this.rectangleCross = new RectangleCross();
-        this.line = new Line();
-        this.group = new Group();
-        this.group.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
-        this.group.setOnMousePressed(rectangleOnMousePressedEventHandler);
+        this.verticalLine = new Line();
+        this.horizontalLine = new Line();
+       this.horizontalLine.setStyle("-fx-stroke-dash-array: 2;");
+       this.verticalLine.setStyle("-fx-stroke-dash-array: 2;");
+        this.label =new Label("value");
+        this.pane = new Pane();
+        this.pane.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
+        this.pane.setOnMousePressed(rectangleOnMousePressedEventHandler);
 
     }
 
-    public Group getCross() {
-        this.line.setStartX(rectangleCross.getBoundsInLocal().getCenterX());
-        this.line.setStartY(this.node.getBoundsInLocal().getHeight() / 2);
-        this.line.setEndX(this.node.getBoundsInLocal().getWidth());
-        this.line.setEndY(this.node.getBoundsInLocal().getHeight() / 2);
+    public Pane getCross() {
+
+        getRectangleWithLines();
+        this.pane.getChildren().addAll(this.verticalLine, this.rectangleCross,this.horizontalLine,this.label);
+        return this.pane;
+    }
+
+    private void getRectangleWithLines() {
         this.rectangleCross.setLayoutX(this.node.getBoundsInLocal().getWidth() / 2 - 10);
         this.rectangleCross.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2 - 10);
+        this.verticalLine.setStartX(this.node.getBoundsInLocal().getMinX());
+        this.verticalLine.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2);
+        this.verticalLine.setEndX(this.node.getBoundsInLocal().getMaxX());
+        this.horizontalLine.setLayoutX(this.node.getBoundsInLocal().getWidth()/2);
+        this.horizontalLine.setStartY(this.node.getBoundsInLocal().getMinY());
+        this.horizontalLine.setStartY(this.node.getBoundsInLocal().getMaxY());
+        this.label.setLayoutX(this.rectangleCross.getLayoutX()+20);
+        this.label.setLayoutY(this.rectangleCross.getLayoutY()+20);
 
-
-        this.group.getChildren().addAll(this.line, this.rectangleCross);
-
-        return this.group;
     }
 
 
@@ -54,8 +69,8 @@ public class CursorRectangle {
                 public void handle(MouseEvent t) {
                     initialSceneX = t.getSceneX();
                     initialSceneY = t.getSceneY();
-                    initialTranslateX = ((Group) (t.getSource())).getTranslateX();
-                    initialTranslateY = ((Group) (t.getSource())).getTranslateY();
+                    initialTranslateX = ((Pane) (t.getSource())).getTranslateX();
+                    initialTranslateY = ((Pane) (t.getSource())).getTranslateY();
                 }
             };
     EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler =
@@ -67,9 +82,8 @@ public class CursorRectangle {
                     double offsetY = t.getSceneY() - initialSceneY;
                     double newTranslateX = initialTranslateX + offsetX;
                     double newTranslateY = initialTranslateY + offsetY;
-
-                    ((Group) (t.getSource())).setTranslateX(newTranslateX);
-                    ((Group) (t.getSource())).setTranslateY(newTranslateY);
+                    ((Pane) (t.getSource())).setTranslateX(newTranslateX);
+                    ((Pane) (t.getSource())).setTranslateY(newTranslateY);
                 }
             };
 

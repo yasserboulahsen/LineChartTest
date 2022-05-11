@@ -15,6 +15,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -308,8 +309,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     public void showCross(){
 
-        Group group = new Group();
-        CursorRectangle cursorRectangle = new CursorRectangle(group,this);
+        Pane pane = new Pane();
+        CursorRectangle cursorRectangle = new CursorRectangle(pane,this);
         getPlotChildren().add(cursorRectangle.getCross());
 
     }

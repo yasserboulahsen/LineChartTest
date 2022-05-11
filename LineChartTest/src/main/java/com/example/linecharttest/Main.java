@@ -33,23 +33,25 @@ public class Main extends Application {
     }
     @Override
     public void stop() throws Exception {
-        try {
-            SerialPort closedesp32 = Controller.closedesp32;
-            String command = "test";
-            closedesp32.writeBytes(command.getBytes(), command.length());
-            closedesp32.closePort();
-        }catch (Exception e){
+
+        Runnable runnable = () -> {
             try {
-                SerialPort esp32 = EspSerialPort.getSerialPort();
+                SerialPort closedesp32 = Controller.closedesp32;
                 String command = "test";
-                esp32.writeBytes(command.getBytes(), command.length());
-                esp32.closePort();
-            }catch (Exception exception){
-                System.out.println("no device!");
-            }
-
+                closedesp32.writeBytes(command.getBytes(), command.length());
+                closedesp32.closePort();
+            }catch (Exception e){
+                try {
+                    SerialPort esp32 = EspSerialPort.getSerialPort();
+                    String command = "test";
+                    esp32.writeBytes(command.getBytes(), command.length());
+                    esp32.closePort();
+                }catch (Exception exception){
+                    System.out.println("no device!");
+                }
         }
-
+    };
+        runnable.run();
 
 
 //        EspSerialPort.getSerialPort().openPort();
