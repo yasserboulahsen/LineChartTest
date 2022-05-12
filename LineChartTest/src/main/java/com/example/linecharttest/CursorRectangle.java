@@ -1,6 +1,7 @@
 package com.example.linecharttest;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -8,56 +9,64 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
 
-
-
 public class CursorRectangle extends Pane {
 
     private RectangleCross rectangleCross;
     private Line verticalLine;
-    private Line horizontalLine;
-    private Pane pane;
+    private Line horizontalLineRight;
+    private Line horizontalLineLeft;
+    private Group group;
 
     private Label label;
 
     double initialSceneX, initialSceneY;
     double initialTranslateX, initialTranslateY;
 
-
+        double x =100;
     private Node node;
 
-    public CursorRectangle(Pane pane, Node node) {
+    public CursorRectangle(Group group, Node node) {
         this.node = node;
-        this.pane = pane;
+        this.group = group;
         this.rectangleCross = new RectangleCross();
         this.verticalLine = new Line();
-        this.horizontalLine = new Line();
-       this.horizontalLine.setStyle("-fx-stroke-dash-array: 2;");
+        this.horizontalLineRight = new Line();
+       this.horizontalLineRight.setStyle("-fx-stroke-dash-array: 2;");
+        this.horizontalLineLeft = new Line();
+        this.horizontalLineLeft.setStyle("-fx-stroke-dash-array: 2;");
        this.verticalLine.setStyle("-fx-stroke-dash-array: 2;");
         this.label =new Label("value");
-        this.pane = new Pane();
-        this.pane.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
-        this.pane.setOnMousePressed(rectangleOnMousePressedEventHandler);
+        this.group = new Group();
+        this.group.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
+        this.group.setOnMousePressed(rectangleOnMousePressedEventHandler);
+
+
 
     }
 
-    public Pane getCross() {
+
+        public Group getCross() {
 
         getRectangleWithLines();
-        this.pane.getChildren().addAll(this.verticalLine, this.rectangleCross,this.horizontalLine,this.label);
-        return this.pane;
+        this.group.getChildren().addAll(this.verticalLine, this.rectangleCross,this.horizontalLineRight,this.horizontalLineLeft,this.label);
+        return this.group;
     }
 
     private void getRectangleWithLines() {
         this.rectangleCross.setLayoutX(this.node.getBoundsInLocal().getWidth() / 2 - 10);
         this.rectangleCross.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2 - 10);
-        this.verticalLine.setStartX(this.node.getBoundsInLocal().getMinX());
-        this.verticalLine.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2);
-        this.verticalLine.setEndX(this.node.getBoundsInLocal().getMaxX());
-        this.horizontalLine.setLayoutX(this.node.getBoundsInLocal().getWidth()/2);
-        this.horizontalLine.setStartY(this.node.getBoundsInLocal().getMinY());
-        this.horizontalLine.setStartY(this.node.getBoundsInLocal().getMaxY());
+        this.horizontalLineRight.setStartX(this.rectangleCross.getBoundsInParent().getMaxX());
+        this.horizontalLineRight.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2);
+        this.horizontalLineRight.setEndX(this.node.getBoundsInLocal().getMaxX());
+        this.horizontalLineLeft.setStartX(this.rectangleCross.getBoundsInParent().getMinX());
+        this.horizontalLineLeft.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2);
+        this.horizontalLineLeft.setEndX(this.node.getBoundsInLocal().getMinY());
+        this.verticalLine.setLayoutX(this.node.getBoundsInLocal().getWidth()/2);
+        this.verticalLine.setStartY(this.node.getBoundsInLocal().getMinY());
+        this.verticalLine.setEndY(this.node.getBoundsInLocal().getMaxY());
         this.label.setLayoutX(this.rectangleCross.getLayoutX()+20);
         this.label.setLayoutY(this.rectangleCross.getLayoutY()+20);
+
 
     }
 
@@ -69,8 +78,8 @@ public class CursorRectangle extends Pane {
                 public void handle(MouseEvent t) {
                     initialSceneX = t.getSceneX();
                     initialSceneY = t.getSceneY();
-                    initialTranslateX = ((Pane) (t.getSource())).getTranslateX();
-                    initialTranslateY = ((Pane) (t.getSource())).getTranslateY();
+                    initialTranslateX = ((Group) (t.getSource())).getTranslateX();
+                    initialTranslateY = ((Group) (t.getSource())).getTranslateY();
                 }
             };
     EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler =
@@ -82,8 +91,13 @@ public class CursorRectangle extends Pane {
                     double offsetY = t.getSceneY() - initialSceneY;
                     double newTranslateX = initialTranslateX + offsetX;
                     double newTranslateY = initialTranslateY + offsetY;
-                    ((Pane) (t.getSource())).setTranslateX(newTranslateX);
-                    ((Pane) (t.getSource())).setTranslateY(newTranslateY);
+                    ((Group) (t.getSource())).setTranslateX(newTranslateX);
+                    ((Group) (t.getSource())).setTranslateY(newTranslateY);
+
+                        double x1 =  (node.getBoundsInLocal().getMaxX()-group.getBoundsInParent().getMaxX());
+                        horizontalLineRight.setEndX(horizontalLineRight.getBoundsInParent().getMaxX()+x1);
+
+
                 }
             };
 

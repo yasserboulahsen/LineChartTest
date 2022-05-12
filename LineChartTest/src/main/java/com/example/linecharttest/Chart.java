@@ -309,8 +309,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
     public void showCross(){
 
-        Pane pane = new Pane();
-        CursorRectangle cursorRectangle = new CursorRectangle(pane,this);
+        Group group = new Group();
+        CursorRectangle cursorRectangle = new CursorRectangle(group,this);
         getPlotChildren().add(cursorRectangle.getCross());
 
     }

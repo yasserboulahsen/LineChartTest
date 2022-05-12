@@ -13,8 +13,9 @@ public class RectangleCross extends Rectangle {
         this.setWidth(20);
         this.setStroke(Color.BLACK);
         this.setFill(Color.TRANSPARENT);
+        this.setStrokeWidth(1.5);
         this.setStyle("-fx-stroke-dash-array: 2 ; ");
-
+//            this.getStrokeDashArray().addAll(2.0,7.0,2.0,7.0);
     }
 
 
