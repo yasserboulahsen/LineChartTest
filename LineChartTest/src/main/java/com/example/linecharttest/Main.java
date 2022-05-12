@@ -41,14 +41,14 @@ public class Main extends Application {
                 closedesp32.writeBytes(command.getBytes(), command.length());
                 closedesp32.closePort();
             }catch (Exception e){
-                try {
-                    SerialPort esp32 = EspSerialPort.getSerialPort();
-                    String command = "test";
-                    esp32.writeBytes(command.getBytes(), command.length());
-                    esp32.closePort();
-                }catch (Exception exception){
-                    System.out.println("no device!");
-                }
+//                try {
+//                    SerialPort esp32 = EspSerialPort.getSerialPort();
+//                    String command = "test";
+//                    esp32.writeBytes(command.getBytes(), command.length());
+//                    esp32.closePort();
+//                }catch (Exception exception){
+//                    System.out.println("no device!");
+//                }
         }
     };
         runnable.run();

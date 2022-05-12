@@ -39,5 +39,10 @@
     -fx-background-color: rgba(128, 128, 128, 0.04);
 
 }
+.rectangle{
+    -fx-border-style: dashed;
+}
+
+
 
 
