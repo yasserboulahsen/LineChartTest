@@ -14,11 +14,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import java.util.Objects;
 
@@ -311,6 +311,8 @@ public class Chart<X, Y> extends LineChart<X,Y> {
 
         Group group = new Group();
         CursorRectangle cursorRectangle = new CursorRectangle(group,this,this.series);
+
+
         getPlotChildren().add(cursorRectangle.getCross());
 
     }
