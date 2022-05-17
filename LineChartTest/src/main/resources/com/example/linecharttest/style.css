@@ -42,6 +42,13 @@
 .rectangle{
     -fx-border-style: dashed;
 }
+.labelChart{
+    -fx-background-color: gray;
+    -fx-alignment: center;
+    -fx-background-radius: 5;
+    -fx-pref-width: 60;
+    -fx-pref-height: 40;
+}
 
 
 

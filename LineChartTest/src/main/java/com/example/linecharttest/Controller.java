@@ -284,7 +284,7 @@ public class Controller {
     private void printingSeting() {
         Printer printer = Printer.getDefaultPrinter();
         PageLayout pageLayout
-                = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
+                = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
         PrinterAttributes attr = printer.getPrinterAttributes();
         PrinterJob job = PrinterJob.createPrinterJob();
         double scaleX

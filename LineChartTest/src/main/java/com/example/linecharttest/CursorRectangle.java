@@ -21,11 +21,9 @@ public class CursorRectangle extends Group {
     private Group group;
 
     private Label label;
-
     double initialSceneX, initialSceneY;
     double initialTranslateX, initialTranslateY;
 
-    double x = 100;
     private Node node;
     private XYChart.Series<?, ?> series;
     Rectangle rec;
@@ -43,12 +41,12 @@ public class CursorRectangle extends Group {
         this.horizontalLineLeft.setStyle("-fx-stroke-dash-array: 2;");
         this.verticalLineTop.setStyle("-fx-stroke-dash-array: 2;");
         this.verticalLineDown.setStyle("-fx-stroke-dash-array: 2;");
-        this.label = new Label("value");
+        this.label = new Label();
         this.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
         this.setOnMousePressed(rectangleOnMousePressedEventHandler);
         getRectangleWithLines();
         this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label);
-
+        this.label.setId("labelChart");
 
     }
 
@@ -119,19 +117,23 @@ public class CursorRectangle extends Group {
                     verticalLineDown.setEndY(verticalLineDown.getBoundsInParent().getMaxY() + y2);
                     //
 
-                    int xMax = (int) getCursorRectangle().getBoundsInParent().getMaxX();
-                    int xMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMinX();
-                    int yMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMaxY();
-                    int yMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMinY();
-                    System.out.println("center cursor -> " +xMax+
-                            "center rec -> "+rec.getBoundsInParent().getCenterX() );
+                    int xMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX()+10;
+                    int xMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX() -10;
+                    int yMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() +10;
+                    int yMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() -10;
+
                     if ((xMin < (int) rec.getBoundsInParent().getCenterX() && (int) rec.getBoundsInParent().getCenterX() < xMax) &&
                             (yMin < (int) rec.getBoundsInParent().getCenterY() && (int) rec.getBoundsInParent().getCenterY() < yMax)) {
 
-                        label.setText(rec.getX() + "," + rec.getY());
+                        label.setText("x: "+rec.getX() + "\ny: " + rec.getY());
+                        label.getStyleClass().add("labelChart");
+                        getRectangleCross().setStrokeWidth(4);
+
 
                     } else {
                         label.setText("");
+                        label.getStyleClass().clear();
+                        getRectangleCross().setStrokeWidth(1.5);
                     }
                 }
             };
