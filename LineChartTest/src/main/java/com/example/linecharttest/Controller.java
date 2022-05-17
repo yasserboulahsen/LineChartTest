@@ -25,6 +25,8 @@ import java.util.Optional;
 
 public class Controller {
     @FXML
+    private Button cross;
+    @FXML
     private Label batteryLabel;
     @FXML
     private ProgressBar battery;
@@ -104,6 +106,8 @@ public class Controller {
         speedChart.setId("chart");
         battery.progressProperty().setValue(1);
 
+
+
     }
 
 
@@ -161,6 +165,8 @@ public class Controller {
         forceChart.autoResize(false);
         speedChart.getLine().toFront();
         forceChart.getLine().toFront();
+
+
 
 
 

@@ -6,12 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.Rectangle;
 
 
-public class CursorRectangle extends Pane {
+public class CursorRectangle extends Group {
 
     private RectangleCross rectangleCross;
     private Line verticalLineTop;
@@ -29,11 +28,12 @@ public class CursorRectangle extends Pane {
     double x = 100;
     private Node node;
     private XYChart.Series<?, ?> series;
+    Rectangle rec;
 
-    public CursorRectangle(Group group, Node node, XYChart.Series<?, ?> series) {
+    public CursorRectangle(Node node, XYChart.Series<?, ?> series, Rectangle rectangle) {
+        this.rec = rectangle;
         this.series = series;
         this.node = node;
-        this.group = group;
         this.rectangleCross = new RectangleCross();
         this.verticalLineTop = new Line();
         this.verticalLineDown = new Line();
@@ -44,9 +44,10 @@ public class CursorRectangle extends Pane {
         this.verticalLineTop.setStyle("-fx-stroke-dash-array: 2;");
         this.verticalLineDown.setStyle("-fx-stroke-dash-array: 2;");
         this.label = new Label("value");
-        this.group = new Group();
-        this.group.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
-        this.group.setOnMousePressed(rectangleOnMousePressedEventHandler);
+        this.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
+        this.setOnMousePressed(rectangleOnMousePressedEventHandler);
+        getRectangleWithLines();
+        this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label);
 
 
     }
@@ -54,9 +55,7 @@ public class CursorRectangle extends Pane {
 
     public Group getCross() {
 
-        getRectangleWithLines();
-        this.group.getChildren().addAll(this.verticalLineTop,this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label);
-        return this.group;
+        return this;
     }
 
     private void getRectangleWithLines() {
@@ -80,6 +79,9 @@ public class CursorRectangle extends Pane {
 
     }
 
+    public RectangleCross getRectangleCross() {
+        return rectangleCross;
+    }
 
     EventHandler<MouseEvent> rectangleOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -104,22 +106,39 @@ public class CursorRectangle extends Pane {
                     ((Group) (t.getSource())).setTranslateX(newTranslateX);
                     ((Group) (t.getSource())).setTranslateY(newTranslateY);
                     //
-                    double x1 = (node.getBoundsInLocal().getMaxX() - group.getBoundsInParent().getMaxX());
+                    double x1 = (node.getBoundsInLocal().getMaxX() - getCross().getBoundsInParent().getMaxX());
                     horizontalLineRight.setEndX(horizontalLineRight.getBoundsInParent().getMaxX() + x1);
                     //
-                    double x2 = (node.getBoundsInLocal().getMinX() - group.getBoundsInParent().getMinX());
+                    double x2 = (node.getBoundsInLocal().getMinX() - getCross().getBoundsInParent().getMinX());
                     horizontalLineLeft.setEndX(horizontalLineLeft.getBoundsInParent().getMinX() + x2);
                     //
-                    double y1 = (node.getBoundsInLocal().getMinY() - group.getBoundsInParent().getMinY());
+                    double y1 = (node.getBoundsInLocal().getMinY() - getCross().getBoundsInParent().getMinY());
                     verticalLineTop.setEndY(verticalLineTop.getBoundsInParent().getMinY() + y1);
                     //
-                    double y2 = (node.getBoundsInLocal().getMaxY() - group.getBoundsInParent().getMaxY());
+                    double y2 = (node.getBoundsInLocal().getMaxY() - getCross().getBoundsInParent().getMaxY());
                     verticalLineDown.setEndY(verticalLineDown.getBoundsInParent().getMaxY() + y2);
                     //
 
+                    int xMax = (int) getCursorRectangle().getBoundsInParent().getMaxX();
+                    int xMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMinX();
+                    int yMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMaxY();
+                    int yMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getMinY();
+                    System.out.println("center cursor -> " +xMax+
+                            "center rec -> "+rec.getBoundsInParent().getCenterX() );
+                    if ((xMin < (int) rec.getBoundsInParent().getCenterX() && (int) rec.getBoundsInParent().getCenterX() < xMax) &&
+                            (yMin < (int) rec.getBoundsInParent().getCenterY() && (int) rec.getBoundsInParent().getCenterY() < yMax)) {
 
+                        label.setText(rec.getX() + "," + rec.getY());
+
+                    } else {
+                        label.setText("");
+                    }
                 }
             };
+
+    public CursorRectangle getCursorRectangle() {
+        return this;
+    }
 
 
 }
