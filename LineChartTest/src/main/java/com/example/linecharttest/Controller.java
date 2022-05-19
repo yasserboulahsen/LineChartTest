@@ -1,12 +1,10 @@
 package com.example.linecharttest;
 
-import ESP.EspData;
 import ESP.EspSerialPort;
 import ESP.xyGraph;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +15,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 public class Controller {
+    @FXML
+    private VBox lineCursor;
     @FXML
     private Button cross;
     @FXML
@@ -105,6 +103,7 @@ public class Controller {
         speedChart.setId("chart1");
         speedChart.setId("chart");
         battery.progressProperty().setValue(1);
+        lineCursor.setVisible(false);
 
 
 
@@ -260,8 +259,8 @@ public class Controller {
                 dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
                 Optional<ButtonType> result = dialog.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    printDocument ducument = fxmlLoader.getController();
-                    System.out.println(ducument.nom());
+                    printDocument document = fxmlLoader.getController();
+                    System.out.println(document.nom());
                     System.out.println("OK");
 //                    isSelected.setText("Nom : " + ducument.nom() + ",Groupe : " + ducument.group() +
 //                            ",Masee :" + ducument.masse());
@@ -272,7 +271,7 @@ public class Controller {
 //                        System.out.println(printer.getName());
 //                    }
                     //@TODO fix the printing function and create a new scene !!!
-                    printingSeting();
+                    printingSeating();
 
 
                 }
@@ -281,7 +280,7 @@ public class Controller {
         });
 
     }
-    private void printingSeting() {
+    private void printingSeating() {
         Printer printer = Printer.getDefaultPrinter();
         PageLayout pageLayout
                 = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);

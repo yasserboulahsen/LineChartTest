@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 
+
 public class CursorRectangle extends Group {
 
     private RectangleCross rectangleCross;
@@ -28,8 +29,8 @@ public class CursorRectangle extends Group {
     private XYChart.Series<?, ?> series;
     Rectangle rec;
 
-    public CursorRectangle(Node node, XYChart.Series<?, ?> series, Rectangle rectangle) {
-        this.rec = rectangle;
+    public CursorRectangle(Node node, XYChart.Series<?, ?> series) {
+
         this.series = series;
         this.node = node;
         this.rectangleCross = new RectangleCross();
@@ -80,6 +81,13 @@ public class CursorRectangle extends Group {
     public RectangleCross getRectangleCross() {
         return rectangleCross;
     }
+    public CursorRectangle getCursorRectangle() {
+        return this;
+    }
+
+    public XYChart.Series<?, ?> getSeries() {
+        return this.series;
+    }
 
     EventHandler<MouseEvent> rectangleOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -90,6 +98,10 @@ public class CursorRectangle extends Group {
                     initialSceneY = t.getSceneY();
                     initialTranslateX = ((Group) (t.getSource())).getTranslateX();
                     initialTranslateY = ((Group) (t.getSource())).getTranslateY();
+
+                    //label.setText("");
+                    //label.getStyleClass().clear();
+                    //getRectangleCross().setStrokeWidth(1.5);
                 }
             };
     EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler =
@@ -97,6 +109,7 @@ public class CursorRectangle extends Group {
 
                 @Override
                 public void handle(MouseEvent t) {
+
                     double offsetX = t.getSceneX() - initialSceneX;
                     double offsetY = t.getSceneY() - initialSceneY;
                     double newTranslateX = initialTranslateX + offsetX;
@@ -117,30 +130,45 @@ public class CursorRectangle extends Group {
                     verticalLineDown.setEndY(verticalLineDown.getBoundsInParent().getMaxY() + y2);
                     //
 
-                    int xMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX()+10;
-                    int xMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX() -10;
-                    int yMax = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() +10;
-                    int yMin = (int) getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() -10;
-
-                    if ((xMin < (int) rec.getBoundsInParent().getCenterX() && (int) rec.getBoundsInParent().getCenterX() < xMax) &&
-                            (yMin < (int) rec.getBoundsInParent().getCenterY() && (int) rec.getBoundsInParent().getCenterY() < yMax)) {
-
-                        label.setText("x: "+rec.getX() + "\ny: " + rec.getY());
-                        label.getStyleClass().add("labelChart");
-                        getRectangleCross().setStrokeWidth(4);
+                    double xMax =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX()+10;
+                    double xMin =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX() -10;
+                    double yMax =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() +10;
+                    double yMin =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() -10;
 
 
-                    } else {
-                        label.setText("");
-                        label.getStyleClass().clear();
-                        getRectangleCross().setStrokeWidth(1.5);
-                    }
+
+                    for(XYChart.Data<?, ?> data : getSeries().getData()){
+                            //data.getNode().toFront();
+
+                            if ((xMin <  data.getNode().getBoundsInParent().getCenterX() && ( data.getNode().getBoundsInParent().getCenterX() < xMax) &&
+                                    (yMin <  data.getNode().getBoundsInParent().getCenterY() &&  data.getNode().getBoundsInParent().getCenterY() < yMax) )) {
+
+                                label.setText("x: "+data.getXValue() + "\ny: " + data.getYValue());
+                                label.getStyleClass().add("labelChart");
+                               getRectangleCross().setStrokeWidth(4);
+//                               data.getNode().setStyle("-fx-background-color: black, white;\n"
+//                    + "    -fx-background-insets: 0, 5;\n"
+//                    + "    -fx-background-radius: 5px;\n"
+//                    + "    -fx-padding: 5px;");
+
+
+
+                               break;
+                            } else {
+
+                                label.setText("");
+                                label.getStyleClass().clear();
+                                getRectangleCross().setStrokeWidth(1.5);
+
+                            }
+
+
+                    };
+
                 }
             };
 
-    public CursorRectangle getCursorRectangle() {
-        return this;
-    }
+
 
 
 }

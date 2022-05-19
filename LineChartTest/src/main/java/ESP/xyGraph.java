@@ -135,6 +135,7 @@ public class xyGraph {
     }
 
 //    private void chartColor() {
+
 //        for (XYChart.Data<Number, Number> entry : series1.getData()) {
 //            entry.getNode().setStyle("-fx-background-color: blue, white;\n"
 //                    + "    -fx-background-insets: 0, 2;\n"

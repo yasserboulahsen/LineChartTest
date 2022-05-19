@@ -37,8 +37,7 @@ public class Chart<X, Y> extends LineChart<X, Y> {
     private double y = 0;
     private final Line hLine = new Line();
     private final Line vLine = new Line();
-    private Rectangle rec = new Rectangle(10,10,Color.BLUE);
-    private Rectangle rec1 = new Rectangle(10,10,Color.RED);
+
 
 
 
@@ -54,14 +53,6 @@ public class Chart<X, Y> extends LineChart<X, Y> {
         this.setAnimated(false);
         this.line = new Line();
         this.setCreateSymbols(true);
-
-
-        rec.setX(600);
-        rec.setY(230);
-        rec1.setX(700);
-        rec1.setY(100);
-        this.getPlotChildren().add(rec);
-        this.getPlotChildren().add(rec1);
 
 //        this.series.getNode().getStyleClass().add("lineColor");
     }
@@ -310,9 +301,10 @@ public class Chart<X, Y> extends LineChart<X, Y> {
     public void showCross() {
 
 
-        CursorRectangle cursorRectangle = new CursorRectangle(this, this.series,this.rec);
+        CursorRectangle cursorRectangle = new CursorRectangle(this, this.series);
 
         getPlotChildren().add(cursorRectangle);
+
 
 
     }
