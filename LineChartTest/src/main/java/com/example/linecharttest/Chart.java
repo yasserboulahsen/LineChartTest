@@ -54,7 +54,6 @@ public class Chart<X, Y> extends LineChart<X, Y> {
         this.setAnimated(false);
         this.line = new Line();
         this.setCreateSymbols(true);
-        //this.setOnMouseClicked(onMouseClickedOnChart);
 
 //        this.series.getNode().getStyleClass().add("lineColor");
     }
@@ -443,7 +442,9 @@ public class Chart<X, Y> extends LineChart<X, Y> {
 
 
     }
-
+    public Chart<X,Y> getchart(){
+        return this;
+    }
 
 
 

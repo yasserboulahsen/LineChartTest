@@ -6,8 +6,6 @@ import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -18,15 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
@@ -88,18 +84,14 @@ public class Controller {
 
     private SimpleDoubleProperty batteryLevel;
 
+    private boolean showCursorSpeed =false;
+    private boolean showCursorForce = false;
+
     private Stage stage;
     private Scene scene;
     private Parent parent;
 
     public void initialize() throws IOException, InterruptedException {
-
-//     borderPane.setLeft(newchart);
-//     chart.setAnimated(false);
-//     newchart.setAnimated(false);
-//     rec.setFill(Color.rgb(0,0,255,0.72));
-//    borderPane.getChildren().add(chartTest);
-//     xaxis.setLabel("X");
 
         start.setDisable(true);
         borderPane.setCenter(vbox);
@@ -107,7 +99,6 @@ public class Controller {
         VBox.setVgrow(speedChart, Priority.ALWAYS);
         vbox.getChildren().addAll(forceChart, speedChart);
 
-//    chartTest.showRecTangle(false);
         forceSeries.setName("Force");
         speedSeries.setName("Speed");
         forceChart.setAnimated(false);
@@ -120,8 +111,18 @@ public class Controller {
         forceChart.setId("forcechart");
         battery.progressProperty().setValue(1);
         lineCursor.setVisible(false);
-
-
+        speedChart.setOnMouseClicked(e->{
+            speedChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.04);");
+            forceChart.setStyle("");
+            showCursorSpeed = true;
+            showCursorForce = false;
+        });
+        forceChart.setOnMouseClicked(e->{
+            forceChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.04);");
+            speedChart.setStyle("");
+            showCursorSpeed = false;
+            showCursorForce = true;
+        });
 
 
     }
@@ -158,8 +159,15 @@ public class Controller {
     }
 
     public void showRectangle(ActionEvent actionEvent) {
-        forceChart.addnewRectangle(borderPane);
-        speedChart.addnewRectangle(borderPane);
+
+        if(showCursorForce){
+            forceChart.addnewRectangle(borderPane);
+        }
+        if(showCursorSpeed){
+            speedChart.addnewRectangle(borderPane);
+        }
+
+
 
 
 
@@ -323,7 +331,12 @@ public class Controller {
 
     public void onCross(ActionEvent actionEvent) {
 
-        forceChart.showCross();
+        if(showCursorForce){
+            forceChart.showCross();
+        }
+        if(showCursorSpeed){
+            speedChart.showCross();
+        }
     }
 
     public void onCon(ActionEvent actionEvent) throws IOException {

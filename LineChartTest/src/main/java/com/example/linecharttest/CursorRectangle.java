@@ -6,9 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Objects;
 
 
 public class CursorRectangle extends Group {
@@ -100,6 +102,7 @@ public class CursorRectangle extends Group {
                     initialTranslateX = ((Group) (t.getSource())).getTranslateX();
                     initialTranslateY = ((Group) (t.getSource())).getTranslateY();
 
+
                     //label.setText("");
                     //label.getStyleClass().clear();
                     //getRectangleCross().setStrokeWidth(1.5);
@@ -170,6 +173,14 @@ public class CursorRectangle extends Group {
             };
 
 
+    public void deleteCursor(BorderPane borderPane){
+        borderPane.setOnKeyPressed(keyEvent -> {
+            if (Objects.equals(keyEvent.getCode().toString(), "DELETE")) {
+                getCursorRectangle().deleteCursor(borderPane);
+               // System.out.println(this.lookup("#rectangle"));
+            }
+        });
+    }
 
 
 
