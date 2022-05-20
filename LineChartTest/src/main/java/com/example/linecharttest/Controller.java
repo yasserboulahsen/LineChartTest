@@ -9,14 +9,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.print.*;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Controller {
@@ -76,7 +82,9 @@ public class Controller {
 
     private SimpleDoubleProperty batteryLevel;
 
-
+    private Stage stage;
+    private Scene scene;
+    private Parent parent;
 
     public void initialize() throws IOException, InterruptedException {
 
@@ -284,7 +292,7 @@ public class Controller {
         Printer printer = Printer.getDefaultPrinter();
         PageLayout pageLayout
                 = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
-        PrinterAttributes attr = printer.getPrinterAttributes();
+        //PrinterAttributes attr = printer.getPrinterAttributes();
         PrinterJob job = PrinterJob.createPrinterJob();
         double scaleX
                 = pageLayout.getPrintableWidth() / borderPane.getBoundsInParent().getWidth();
@@ -307,5 +315,14 @@ public class Controller {
     public void onCross(ActionEvent actionEvent) {
 
         forceChart.showCross();
+    }
+
+    public void onCon(ActionEvent actionEvent) throws IOException {
+        Parent root =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("connection.fxml")));
+        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setTitle("Connection!");
+        stage.setScene(scene);
+        stage.show();
     }
 }
