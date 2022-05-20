@@ -6,8 +6,11 @@ import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,9 +19,12 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -97,6 +103,8 @@ public class Controller {
 
         start.setDisable(true);
         borderPane.setCenter(vbox);
+        VBox.setVgrow(forceChart, Priority.ALWAYS);
+        VBox.setVgrow(speedChart, Priority.ALWAYS);
         vbox.getChildren().addAll(forceChart, speedChart);
 
 //    chartTest.showRecTangle(false);
@@ -108,10 +116,11 @@ public class Controller {
         forceChart.autoResize(true);
         forceChart.setCreateSymbols(true);
         speedChart.setCreateSymbols(true);
-        speedChart.setId("chart1");
-        speedChart.setId("chart");
+        speedChart.setId("speedchart");
+        forceChart.setId("forcechart");
         battery.progressProperty().setValue(1);
         lineCursor.setVisible(false);
+
 
 
 
@@ -324,5 +333,11 @@ public class Controller {
         stage.setTitle("Connection!");
         stage.setScene(scene);
         stage.show();
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
     }
+
+
+
 }

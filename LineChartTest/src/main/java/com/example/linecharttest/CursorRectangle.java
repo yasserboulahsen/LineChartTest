@@ -45,6 +45,7 @@ public class CursorRectangle extends Group {
         this.label = new Label();
         this.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
         this.setOnMousePressed(rectangleOnMousePressedEventHandler);
+
         getRectangleWithLines();
         this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label);
         this.label.setId("labelChart");
@@ -167,6 +168,8 @@ public class CursorRectangle extends Group {
 
                 }
             };
+
+
 
 
 

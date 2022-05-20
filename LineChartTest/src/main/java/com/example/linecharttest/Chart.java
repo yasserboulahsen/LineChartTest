@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -53,6 +54,7 @@ public class Chart<X, Y> extends LineChart<X, Y> {
         this.setAnimated(false);
         this.line = new Line();
         this.setCreateSymbols(true);
+        //this.setOnMouseClicked(onMouseClickedOnChart);
 
 //        this.series.getNode().getStyleClass().add("lineColor");
     }
@@ -441,5 +443,9 @@ public class Chart<X, Y> extends LineChart<X, Y> {
 
 
     }
+
+
+
+
 }
 
