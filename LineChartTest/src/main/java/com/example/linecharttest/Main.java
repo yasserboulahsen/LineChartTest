@@ -37,7 +37,7 @@ public class Main extends Application {
         Runnable runnable = () -> {
             try {
                 SerialPort closedesp32 = Controller.closedesp32;
-                String command = "test";
+                String command = "sleep";
                 closedesp32.writeBytes(command.getBytes(), command.length());
                 closedesp32.closePort();
             }catch (Exception e){

@@ -10,7 +10,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 
 public class CursorRectangle extends Group {
@@ -29,7 +32,8 @@ public class CursorRectangle extends Group {
 
     private Node node;
     private XYChart.Series<?, ?> series;
-    Rectangle rec;
+
+
 
     public CursorRectangle(Node node, XYChart.Series<?, ?> series) {
 
@@ -61,6 +65,7 @@ public class CursorRectangle extends Group {
     }
 
     private void getRectangleWithLines() {
+
         this.rectangleCross.setLayoutX(this.node.getBoundsInLocal().getWidth() / 2 - 10);
         this.rectangleCross.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2 - 10);
         this.horizontalLineRight.setLayoutY(this.node.getBoundsInLocal().getHeight() / 2);
@@ -134,7 +139,7 @@ public class CursorRectangle extends Group {
                     verticalLineDown.setEndY(verticalLineDown.getBoundsInParent().getMaxY() + y2);
                     //
 
-                    double xMax =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX()+10;
+                    double xMax =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX() +10;
                     double xMin =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterX() -10;
                     double yMax =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() +10;
                     double yMin =  getCursorRectangle().localToParent(node.getBoundsInLocal()).getCenterY() -10;
@@ -157,12 +162,14 @@ public class CursorRectangle extends Group {
 
 
 
+
                                break;
                             } else {
 
                                 label.setText("");
                                 label.getStyleClass().clear();
                                 getRectangleCross().setStrokeWidth(1.5);
+
 
                             }
 
