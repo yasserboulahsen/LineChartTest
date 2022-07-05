@@ -5,11 +5,15 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -27,6 +31,7 @@ public class CursorRectangle extends Group {
     private Group group;
 
     private Label label;
+    private  Label deleteCrossLabel;
     double initialSceneX, initialSceneY;
     double initialTranslateX, initialTranslateY;
 
@@ -49,12 +54,17 @@ public class CursorRectangle extends Group {
         this.verticalLineTop.setStyle("-fx-stroke-dash-array: 2;");
         this.verticalLineDown.setStyle("-fx-stroke-dash-array: 2;");
         this.label = new Label();
+        this.deleteCrossLabel= new Label();
         this.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
         this.setOnMousePressed(rectangleOnMousePressedEventHandler);
-
+        this.setOnMouseClicked(rectangleOnMouseClickedEventHandler);
+        this.deleteCrossLabel.setOnMouseClicked(deleteLabelOnMouseClickedEvent);
+        this.deleteCrossLabel.setOnMouseEntered(hoverOverLabel);
+        this.deleteCrossLabel.setOnMouseExited((event)-> deleteCrossLabel.setStyle("-fx-background-color:rgba(0, 0, 0, 0)"));
         getRectangleWithLines();
-        this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label);
+        this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label,this.deleteCrossLabel);
         this.label.setId("labelChart");
+
 
     }
 
@@ -83,6 +93,9 @@ public class CursorRectangle extends Group {
         this.label.setLayoutX(this.rectangleCross.getLayoutX() + 20);
         this.label.setLayoutY(this.rectangleCross.getLayoutY() + 20);
 
+        this.deleteCrossLabel.setLayoutX(this.rectangleCross.getLayoutX() + 20);
+        this.deleteCrossLabel.setLayoutY(this.rectangleCross.getLayoutY() - 20);
+
 
     }
 
@@ -108,9 +121,11 @@ public class CursorRectangle extends Group {
                     initialTranslateY = ((Group) (t.getSource())).getTranslateY();
 
 
+
                     //label.setText("");
                     //label.getStyleClass().clear();
                     //getRectangleCross().setStrokeWidth(1.5);
+
                 }
             };
     EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler =
@@ -118,7 +133,7 @@ public class CursorRectangle extends Group {
 
                 @Override
                 public void handle(MouseEvent t) {
-
+                    deleteCrossLabel.setVisible(false);
                     double offsetX = t.getSceneX() - initialSceneX;
                     double offsetY = t.getSceneY() - initialSceneY;
                     double newTranslateX = initialTranslateX + offsetX;
@@ -154,18 +169,14 @@ public class CursorRectangle extends Group {
 
                                 label.setText("x: "+data.getXValue() + "\ny: " + data.getYValue());
                                 label.getStyleClass().add("labelChart");
-                               getRectangleCross().setStrokeWidth(4);
+                                getRectangleCross().setStrokeWidth(4);
 //                               data.getNode().setStyle("-fx-background-color: black, white;\n"
 //                    + "    -fx-background-insets: 0, 5;\n"
 //                    + "    -fx-background-radius: 5px;\n"
 //                    + "    -fx-padding: 5px;");
 
-
-
-
                                break;
                             } else {
-
                                 label.setText("");
                                 label.getStyleClass().clear();
                                 getRectangleCross().setStrokeWidth(1.5);
@@ -178,6 +189,22 @@ public class CursorRectangle extends Group {
 
                 }
             };
+    EventHandler<MouseEvent>  rectangleOnMouseClickedEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+                     Image image = new Image("file:src/main/resources/pics/delPic.png",25,25,false,false);
+                        if(mouseEvent.getButton() == MouseButton.SECONDARY){
+                            deleteCrossLabel.setVisible(true);
+                            deleteCrossLabel.setGraphic(new ImageView(image));
+                        }
+        }
+    };
+    EventHandler<MouseEvent> deleteLabelOnMouseClickedEvent = mouseEvent -> {
+        this.setVisible(false);
+    };
+    EventHandler<MouseEvent> hoverOverLabel = mouseEvent -> {
+        deleteCrossLabel.setStyle("-fx-background-color: gray");
+    };
 
 
     public void deleteCursor(BorderPane borderPane){
