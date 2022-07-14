@@ -1,47 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Controller">
    <center>
       <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
-   <left>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="showRec" mnemonicParsing="false" onAction="#showRectangle" prefHeight="26.0" prefWidth="104.0" text="Rectangle">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="autosize" mnemonicParsing="false" onAction="#onAutoSize" prefHeight="26.0" prefWidth="100.0" text="Auto Size">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" />
-               </VBox.margin></Button>
-            <Button mnemonicParsing="false" onAction="#printButton" prefHeight="25.0" prefWidth="97.0" text="Print">
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin></Button>
-            <Button fx:id="cross" mnemonicParsing="false" onAction="#onCross" prefHeight="25.0" prefWidth="88.0" text="Curseur">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="curseur" mnemonicParsing="false" onAction="#onCursor" prefHeight="25.0" prefWidth="97.0" text="Curseur" visible="false">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onCon" text="con" visible="false" />
-         </children>
-         <BorderPane.margin>
-            <Insets left="5.0" right="3.0" />
-         </BorderPane.margin>
-      </VBox>
-   </left>
    <bottom>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -62,16 +31,16 @@
       </HBox>
    </bottom>
    <top>
-      <HBox alignment="CENTER" prefHeight="27.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="topHbox" alignment="CENTER" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="100.0" styleClass="hGrid" BorderPane.alignment="CENTER">
          <opaqueInsets>
             <Insets left="5.0" right="5.0" />
          </opaqueInsets>
          <children>
             <GridPane alignment="CENTER" prefHeight="27.0" prefWidth="605.0" HBox.hgrow="ALWAYS">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -81,10 +50,69 @@
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin></ProgressBar>
-                  <Button fx:id="connect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="200.0" text="connexion" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.vgrow="NEVER">
-                     <GridPane.margin>
-                        <Insets top="3.0" />
-                     </GridPane.margin></Button>
+                  <HBox fx:id="vboxController" alignment="CENTER" prefHeight="318.0" prefWidth="42.0">
+                     <children>
+                        <Button fx:id="showRec" maxWidth="20.0" minHeight="15.0" minWidth="20.0" mnemonicParsing="false" onAction="#showRectangle" prefHeight="15.0" prefWidth="104.0" styleClass="rectangleSelect" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="autosize" maxWidth="20.0" minHeight="15.0" minWidth="20.0" mnemonicParsing="false" onAction="#onAutoSize" prefHeight="15.0" prefWidth="100.0" styleClass="autoResize">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="printingBtn" maxHeight="15.0" maxWidth="20.0" minHeight="15.0" minWidth="20.0" mnemonicParsing="false" onAction="#printButton" prefHeight="15.0" prefWidth="20.0" styleClass="printBtn">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="cross" maxWidth="20.0" minHeight="15.0" minWidth="20.0" mnemonicParsing="false" onAction="#onCross" prefHeight="15.0" prefWidth="88.0" styleClass="cross">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="curseur" maxWidth="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onCursor" prefHeight="25.0" prefWidth="97.0" text="Curseur" visible="false">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button maxWidth="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onCon" text="con" visible="false" />
+                     </children>
+                  </HBox>
+                  <AnchorPane prefHeight="20.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <Circle fx:id="circle" fill="DODGERBLUE" layoutX="64.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
+                        <Circle fx:id="circle1" fill="DODGERBLUE" layoutX="84.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
+                        <Circle fx:id="circle2" fill="DODGERBLUE" layoutX="103.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
+                        <Circle fx:id="circle3" fill="DODGERBLUE" layoutX="122.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
+                        <Button fx:id="connect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15px;" styleClass="connexion" text="connexion" />
+                     </children>
+                  </AnchorPane>
                </children>
                <effect>
                   <Blend />
@@ -94,10 +122,13 @@
                </HBox.margin>
             </GridPane>
          </children>
+         <BorderPane.margin>
+            <Insets top="5.0" />
+         </BorderPane.margin>
       </HBox>
    </top>
    <right>
-      <VBox fx:id="lineCursor" alignment="CENTER" prefHeight="336.0" prefWidth="91.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="lineCursor" alignment="CENTER" prefHeight="318.0" prefWidth="26.0" visible="false" BorderPane.alignment="CENTER">
          <children>
             <GridPane alignment="TOP_CENTER" prefHeight="68.0" prefWidth="91.0" style="-fx-border-color: black; -fx-border-radius: 6px;">
               <columnConstraints>

@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainBorderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Connection">
+<AnchorPane fx:id="mainBorderPane" maxHeight="250.0" maxWidth="200.0" minHeight="250.0" minWidth="200.0" prefHeight="253.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.Connection">
    <children>
-      <Button fx:id="connexion" layoutX="221.0" layoutY="261.0" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="144.0" text="Connexion" />
+      <Button fx:id="connexion" layoutX="28.0" layoutY="183.0" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="144.0" text="Connexion" visible="false" />
+      <ProgressIndicator fx:id="connexionProgress" layoutX="50.0" layoutY="25.0" minHeight="100.0" minWidth="100.0" prefHeight="145.0" prefWidth="100.0" progress="0.0" />
    </children>
 </AnchorPane>

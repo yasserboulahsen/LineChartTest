@@ -61,7 +61,7 @@ public class ResizeRegion {
         }
     };
 
-    public static enum S {
+    public enum S {
         DEFAULT,
         DRAG,
         NW_RESIZE,
@@ -71,7 +71,7 @@ public class ResizeRegion {
         E_RESIZE,
         W_RESIZE,
         N_RESIZE,
-        S_RESIZE;
+        S_RESIZE
     }
 
 
@@ -79,7 +79,7 @@ public class ResizeRegion {
 
     private S state = S.DEFAULT;
 
-    private Node node;
+    private final Node node;
     private OnDragResizeEventListener listener = defaultListener;
 
     private static final int MARGIN = 8;

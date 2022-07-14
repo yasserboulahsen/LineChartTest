@@ -1,4 +1,7 @@
 package com.example.linecharttest;
+import ESP.EspSerialPort;
+import com.fazecast.jSerialComm.SerialPort;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -6,7 +9,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
@@ -16,12 +21,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Connection {
+    @FXML
     public Button connexion;
+    @FXML
     public AnchorPane mainBorderPane;
+    @FXML
+    public ProgressIndicator connexionProgress;
+    private final SerialPort[] esp32 = {null};
+    public static SerialPort closedesp32;
 
     private Stage stage;
     private Scene scene;
     private Parent parent;
+
+
+
 
     public void onConnexion(ActionEvent actionEvent) throws IOException {
         Parent root =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));

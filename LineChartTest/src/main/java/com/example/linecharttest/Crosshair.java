@@ -11,9 +11,9 @@ import javafx.scene.shape.Line;
 
 public  class Crosshair<X,Y> extends LineChart<X,Y> {
 
-    private Group plotArea;
+    private final Group plotArea;
     private final XYChart.Series<X, Y> series;
-    private Label label;
+    private final Label label;
 
     public Crosshair(Axis<X> axis, Axis<Y> axis1, Group plotArea, Series<X, Y> series, Label label) {
         super(axis, axis1);

@@ -3,6 +3,7 @@ package com.example.linecharttest;
 import ESP.EspSerialPort;
 import ESP.xyGraph;
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -16,22 +17,48 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Scale;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Controller {
+    @FXML
+    private Circle circle3;
+    @FXML
+    private Circle circle2;
+    @FXML
+    private Circle circle1;
+    @FXML
+    private Circle circle;
+    @FXML
+    private Button showRec;
+
+    private  Tooltip showRecTooltip = new Tooltip("Select Points");
+    @FXML
+
+    private Button printingBtn;
+
+    private Tooltip printTooltip = new Tooltip("Print Document");
     @FXML
     private VBox lineCursor;
     @FXML
     private Button cross;
+    private Tooltip crossTooltip = new Tooltip("Cursor");
+    @FXML
+    private Button autosize;
+
+    private  Tooltip autosizeTooltip = new Tooltip("Resize graph");
     @FXML
     private Label batteryLabel;
     @FXML
@@ -52,8 +79,7 @@ public class Controller {
     private BorderPane borderPane;
     @FXML
     private VBox vbox;
-    @FXML
-    private Button autosize;
+
 
     @FXML
     private Button start;
@@ -91,7 +117,18 @@ public class Controller {
     private Scene scene;
     private Parent parent;
 
+    private List<Node> circles = new ArrayList<>();
+
+
+
     public void initialize() throws IOException, InterruptedException {
+
+
+        circles = List.of(circle,circle1,circle2,circle3);
+
+        circles.forEach(e->{
+            e.setVisible(false);
+        });
 
         start.setDisable(true);
         borderPane.setCenter(vbox);
@@ -112,23 +149,29 @@ public class Controller {
         battery.progressProperty().setValue(1);
         lineCursor.setVisible(false);
         speedChart.setOnMouseClicked(e->{
-            speedChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.04);");
+            speedChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
             forceChart.setStyle("");
             showCursorSpeed = true;
             showCursorForce = false;
         });
         forceChart.setOnMouseClicked(e->{
-            forceChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.04);");
+            forceChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
             speedChart.setStyle("");
             showCursorSpeed = false;
             showCursorForce = true;
         });
 
+     Tooltip.install(showRec,showRecTooltip);
+     Tooltip.install(printingBtn,printTooltip);
+     Tooltip.install(cross,crossTooltip);
+     Tooltip.install(autosize,autosizeTooltip);
 
     }
 
 
     public void onStart(ActionEvent actionEvent) throws IOException, InterruptedException {
+
+
         start.setDisable(true);
         speedChart.autoResize(true);
         forceChart.autoResize(true);
@@ -150,6 +193,7 @@ public class Controller {
 
         battery.progressProperty().bind(progressBar.progressProperty());
         battery.styleProperty().bind(progressBar.styleProperty());
+
 
 
 
@@ -202,7 +246,24 @@ public class Controller {
         }
     }
 
-    public void onConnexion(ActionEvent actionEvent) {
+    public void onConnexion(ActionEvent actionEvent) throws IOException {
+        connect.setDisable(true);
+        Random random = new Random();
+        circles.forEach((e)->{
+            e.setVisible(true);
+            TranslateTransition transition = new TranslateTransition();
+            transition.setNode(e);
+            transition.setDuration(Duration.millis(1000));
+            transition.setCycleCount(TranslateTransition.INDEFINITE);
+            transition.setByY(-(random.nextInt(10)));
+            transition.play();
+
+        });
+
+
+
+
+
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
 //        for(double i = 0.0 ;i <= 1.0; i += 0.1){
@@ -220,6 +281,9 @@ public class Controller {
 
                 connect.setStyle("-fx-background-color: #008000");
                 connect.setDisable(true);
+                circles.forEach((e)->{
+                    e.setVisible(false);
+                });
 
                 //Platform.runLater(() -> progress.setProgress(1.0));
             } catch (Exception e) {
@@ -229,7 +293,9 @@ public class Controller {
                         start.setDisable(false);
                     } catch (Exception e1) {
                         //e.printStackTrace();
-
+                        circles.forEach((eC)->{
+                            eC.setVisible(false);
+                        });
 
                         alert.setTitle("Erreur");
                         alert.setHeaderText("Erreur de connexion");
@@ -237,6 +303,9 @@ public class Controller {
                         alert.setContentText(s);
 
                         alert.show();
+
+                        connect.setDisable(false);
+
                     }
                 });
             }
@@ -317,6 +386,7 @@ public class Controller {
                 = pageLayout.getPrintableHeight() / borderPane.getBoundsInParent().getHeight();
         Scale scale = new Scale(scaleX, scaleY);
         borderPane.getTransforms().add(scale);
+
 
         if (job != null && job.showPrintDialog(borderPane.getScene().getWindow())) {
             boolean success = job.printPage(pageLayout, borderPane);

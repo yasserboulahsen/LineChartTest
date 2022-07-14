@@ -2,6 +2,7 @@ package com.example.linecharttest;
 
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
@@ -24,21 +25,21 @@ import java.util.stream.IntStream;
 
 public class CursorRectangle extends Group {
 
-    private RectangleCross rectangleCross;
-    private Line verticalLineTop;
+    private final RectangleCross rectangleCross;
+    private final Line verticalLineTop;
 
-    private Line verticalLineDown;
-    private Line horizontalLineRight;
-    private Line horizontalLineLeft;
+    private final Line verticalLineDown;
+    private final Line horizontalLineRight;
+    private final Line horizontalLineLeft;
     private Group group;
 
-    private Label label;
+    private final Label label;
     private Label deleteCrossLabel;
     double initialSceneX, initialSceneY;
     double initialTranslateX, initialTranslateY;
 
-    private Node node;
-    private XYChart.Series<?, ?> series;
+    private final Node node;
+    private final XYChart.Series<?, ?> series;
 
 
     public CursorRectangle(Node node, XYChart.Series<?, ?> series) {
@@ -65,6 +66,7 @@ public class CursorRectangle extends Group {
         getRectangleWithLines();
         this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label, this.deleteCrossLabel);
         this.label.setId("labelChart");
+        this.setCursor(Cursor.HAND);
 
 
     }
@@ -170,8 +172,7 @@ public class CursorRectangle extends Group {
                             label.setText("x: " + data.getXValue() + "\ny: " + data.getYValue());
                             label.getStyleClass().add("labelChart");
                             getRectangleCross().setStrokeWidth(4);
-                            System.out.println(getCursorRectangle().getBoundsInLocal().getCenterX());
-                            System.out.println(getCursorRectangle().getBoundsInLocal().getCenterY());
+
 
 //                               data.getNode().setStyle("-fx-background-color: black, white;\n"
 //                    + "    -fx-background-insets: 0, 5;\n"
@@ -190,7 +191,6 @@ public class CursorRectangle extends Group {
 
 
                     }
-                    ;
 
                 }
             };

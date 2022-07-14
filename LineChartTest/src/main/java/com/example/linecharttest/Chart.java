@@ -55,7 +55,8 @@ public class Chart<X, Y> extends LineChart<X, Y> {
         this.line = new Line();
         this.setCreateSymbols(true);
 
-//        this.series.getNode().getStyleClass().add("lineColor");
+//  this.series.getNode().getStyleClass().add("lineColor");
+
     }
 
 //    public void showRecTangle(boolean show) {

@@ -24,6 +24,7 @@ public class xyGraph {
     private final XYChart.Series<Number, Number> series;
     private final XYChart.Series<Number, Number> series1;
     private final ScheduledExecutorService scheduledExecutorService;
+    private final ScheduledExecutorService batteryExecutorService;
     public static List<XYChart.Series<String,Number>> list = new ArrayList<>();
     private Double battery;
     private final ProgressBar progressBar;
@@ -37,8 +38,10 @@ public class xyGraph {
         this.esp32 = esp32;
         this.series1 = series1;
         this.scheduledExecutorService =  new ScheduledThreadPoolExecutor(1);//Executors.newScheduledThreadPool(1);
+        this.batteryExecutorService =new ScheduledThreadPoolExecutor(1);
         this.series = series;
         this.progressBar =progressBar;
+        this.battery = 1.0;
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
@@ -70,18 +73,31 @@ public class xyGraph {
                     }
 
                     //Chart update to series graph
-                    if(battery!=null) {
 
-                        this.progressBar.progressProperty().setValue((battery-3)/0.7);
-                        if(battery<3){
-                        this.progressBar.setStyle("-fx-accent:red");
-                        }
-                    }
 //                }
 
             });
 
         }, 0, period, TimeUnit.MILLISECONDS);
+
+
+        this.batteryExecutorService.scheduleAtFixedRate(()->{
+                    Platform.runLater(() -> {
+                        input =  new BufferedReader(new InputStreamReader(this.esp32[0].getInputStream()));
+                        try {
+                            getBatteryLevel(input.readLine());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println("battery"+ this.battery);
+                        if (this.battery != null) {
+                            this.progressBar.progressProperty().setValue((this.battery - 3) / 0.7);
+                            if (this.battery < 3) {
+                                this.progressBar.setStyle("-fx-accent:red");
+                            }
+                        }
+                    });
+        },0,1000,TimeUnit.MILLISECONDS);
 
 
     }
@@ -100,13 +116,19 @@ public class xyGraph {
                 this.series1.getData().add(new XYChart.Data<>(timeInSecond, Double.valueOf(split1)));
 //               System.out.println(this.simpleDateFormat.format(curentTime)+"--"+ Double.valueOf(split1));
 //                list.add(series);
-                this.battery = Double.parseDouble(batterySplit);
+//                this.battery = Double.parseDouble(batterySplit);
 
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
+        }
+    }
+    private void getBatteryLevel(String t ){
+        String batterySplit =  splitData(t,2);
+        if ( batterySplit !=null) {
+            this.battery = Double.parseDouble(batterySplit);
         }
     }
 
