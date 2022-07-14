@@ -14,12 +14,12 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="25.0" prefWidth="139.0" text="Start" textFill="#1500ff">
+            <Button fx:id="start" mnemonicParsing="false" onAction="#onStart" prefHeight="25.0" prefWidth="139.0" style="-fx-background-radius: 15px;" text="Start" textFill="#1500ff">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="25.0" prefWidth="140.0" text="Stop" textFill="RED">
+            <Button mnemonicParsing="false" onAction="#onStop" prefHeight="25.0" prefWidth="140.0" style="-fx-background-radius: 15px;" text="Stop" textFill="RED">
                <HBox.margin>
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -106,10 +106,10 @@
                   </HBox>
                   <AnchorPane prefHeight="20.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Circle fx:id="circle" fill="DODGERBLUE" layoutX="64.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
-                        <Circle fx:id="circle1" fill="DODGERBLUE" layoutX="84.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
-                        <Circle fx:id="circle2" fill="DODGERBLUE" layoutX="103.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
-                        <Circle fx:id="circle3" fill="DODGERBLUE" layoutX="122.0" layoutY="14.0" radius="5.0" stroke="#00000080" strokeType="INSIDE" />
+                        <Circle fx:id="circle" fill="DODGERBLUE" layoutX="64.0" layoutY="14.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle1" fill="DODGERBLUE" layoutX="84.0" layoutY="14.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle2" fill="DODGERBLUE" layoutX="103.0" layoutY="14.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle3" fill="DODGERBLUE" layoutX="122.0" layoutY="14.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
                         <Button fx:id="connect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onConnexion" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15px;" styleClass="connexion" text="connexion" />
                      </children>
                   </AnchorPane>

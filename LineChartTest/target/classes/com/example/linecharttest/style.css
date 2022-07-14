@@ -1,5 +1,5 @@
 .button:hover {
-    -fx-background-color: rgba(147, 147, 147, 0.62);
+    -fx-background-color: rgba(108, 108, 108, 0.73);
     -fx-border-radius: 25px;
 }
 
@@ -38,6 +38,10 @@
 
 .chart:hover {
     -fx-background-color: rgba(128, 128, 128, 0.04);
+
+}
+.chart-legend {
+    -fx-background-color:  transparent;
 
 }
 
@@ -99,6 +103,10 @@
 
 .hGrid {
     -fx-background-color: #E3E8E9;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
 }
 
 .chart-series-line {

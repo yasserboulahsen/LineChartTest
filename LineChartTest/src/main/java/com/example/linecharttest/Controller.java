@@ -3,6 +3,8 @@ package com.example.linecharttest;
 import ESP.EspSerialPort;
 import ESP.xyGraph;
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -23,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -250,12 +253,16 @@ public class Controller {
         connect.setDisable(true);
         Random random = new Random();
         circles.forEach((e)->{
+
             e.setVisible(true);
             TranslateTransition transition = new TranslateTransition();
+
             transition.setNode(e);
             transition.setDuration(Duration.millis(1000));
             transition.setCycleCount(TranslateTransition.INDEFINITE);
             transition.setByY(-(random.nextInt(10)));
+//           transition.setAutoReverse(true);
+
             transition.play();
 
         });
@@ -279,7 +286,7 @@ public class Controller {
 
                 start.setDisable(false);
 
-                connect.setStyle("-fx-background-color: #008000");
+                connect.setStyle("-fx-background-color: #008000; -fx-background-radius: 25px" );
                 connect.setDisable(true);
                 circles.forEach((e)->{
                     e.setVisible(false);
