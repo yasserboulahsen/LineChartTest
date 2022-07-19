@@ -3,8 +3,6 @@ package com.example.linecharttest;
 import ESP.EspSerialPort;
 import ESP.xyGraph;
 import com.fazecast.jSerialComm.SerialPort;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -19,15 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -36,6 +28,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class Controller {
+
+    public GridPane gridTop;
+    @FXML
+    private Button stopBtn;
+
     @FXML
     private Circle circle3;
     @FXML
@@ -105,8 +102,8 @@ public class Controller {
     //    private Rectangle rec =
     private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
     private final XYChart.Series<Number, Number> speedSeries = new XYChart.Series<>();
-    private final Chart<Number, Number> forceChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries);
-    private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries);
+    private final Chart<Number, Number> forceChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries, borderPane);
+    private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries, borderPane);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
     public static SerialPort closedesp32;
@@ -134,6 +131,7 @@ public class Controller {
         });
 
         start.setDisable(true);
+        stopBtn.setDisable(true);
         borderPane.setCenter(vbox);
         VBox.setVgrow(forceChart, Priority.ALWAYS);
         VBox.setVgrow(speedChart, Priority.ALWAYS);
@@ -168,6 +166,11 @@ public class Controller {
      Tooltip.install(printingBtn,printTooltip);
      Tooltip.install(cross,crossTooltip);
      Tooltip.install(autosize,autosizeTooltip);
+
+     borderPane.widthProperty().addListener((obs,oldval,newVal)->{
+//         System.out.println(oldval);
+//         System.out.println(newVal);
+     });
 
     }
 
@@ -251,6 +254,7 @@ public class Controller {
 
     public void onConnexion(ActionEvent actionEvent) throws IOException {
         connect.setDisable(true);
+
         Random random = new Random();
         circles.forEach((e)->{
 
@@ -285,6 +289,7 @@ public class Controller {
                 closedesp32 = esp32[0];
 
                 start.setDisable(false);
+                stopBtn.setDisable(false);
 
                 connect.setStyle("-fx-background-color: #008000; -fx-background-radius: 25px" );
                 connect.setDisable(true);
@@ -333,19 +338,22 @@ public class Controller {
     }
     @FXML
     public void printButton() {
+
+
         Dialog<ButtonType> dialog = new Dialog<>();
 
-        System.out.println("print methode has been called");
+//        System.out.println("print methode has been called");
         dialog.initOwner(borderPane.getScene().getWindow());
-        dialog.setTitle("Test Print");
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                gridTop.setVisible(false);
                 Dialog<ButtonType> dialog = new Dialog<>();
 
                 System.out.println("print methode has been called");
                 dialog.initOwner(borderPane.getScene().getWindow());
-                dialog.setTitle("Test Print");
+                dialog.setTitle(" Print");
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("printDocument.fxml"));
                 try {
@@ -363,6 +371,7 @@ public class Controller {
                     printDocument document = fxmlLoader.getController();
                     System.out.println(document.nom());
                     System.out.println("OK");
+
 //                    isSelected.setText("Nom : " + ducument.nom() + ",Groupe : " + ducument.group() +
 //                            ",Masee :" + ducument.masse());
 
@@ -376,9 +385,14 @@ public class Controller {
 
 
                 }
+                gridTop.setVisible(true);
+
 
             }
+
+
         });
+
 
     }
     private void printingSeating() {

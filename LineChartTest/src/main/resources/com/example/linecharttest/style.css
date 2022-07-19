@@ -1,6 +1,8 @@
 .button:hover {
-    -fx-background-color: rgba(108, 108, 108, 0.73);
+    -fx-background-color: rgba(98, 97, 97, 0.71);
     -fx-border-radius: 25px;
+    /*-fx-effect: dropshadow(three-pass-box, rgb(2, 2, 2), 10, 0, 0, 0);*/
+    -fx-translate-y: -2px;
 }
 
 /*.label{*/

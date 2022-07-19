@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -16,7 +15,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -39,21 +37,49 @@ public class Chart<X, Y> extends LineChart<X, Y> {
     private final Line hLine = new Line();
     private final Line vLine = new Line();
 
-
+   private final BorderPane borderPane;
+    double xplot =0;
+    double yplot =0;
+    double xPlotTranslate,yPlotTranslate;
+    Rectangle rectangle1 = new Rectangle();
 
 
     private final ObservableList<Node> points = FXCollections.observableArrayList();
     private final ObservableList<Node> slope = FXCollections.observableArrayList();
 
 
-    public Chart(Axis<X> axis, Axis<Y> axis1, Label yvalue, Label xvalue, Series<X, Y> series) {
+    public Chart(Axis<X> axis, Axis<Y> axis1, Label yvalue, Label xvalue, Series<X, Y> series, BorderPane borderPane) {
         super(axis, axis1);
         this.xValue = xvalue;
         this.yValue = yvalue;
         this.series = series;
+        this.borderPane = borderPane;
         this.setAnimated(false);
         this.line = new Line();
         this.setCreateSymbols(true);
+
+        //@TODO set the rectangle size in second chart and the click event position
+        this.getChartChildren().get(0).setOnMousePressed(e->{
+            xplot = e.getSceneX();
+            yplot = e.getSceneY();
+            xPlotTranslate = ((Node) (e.getSource())).getTranslateX();
+            yPlotTranslate = ((Node) (e.getSource())).getTranslateY();
+        });
+        this.getChartChildren().get(0).setOnMouseDragged(e->{
+            double offsetX = e.getSceneX() - xplot;
+            double offsetY = e.getSceneY() -  yplot;
+            double newTranslateX = xPlotTranslate + offsetX;
+            double newTranslateY = yPlotTranslate + offsetY;
+
+            rectangle1.setX(xplot-10);
+            rectangle1.setY(yplot-10);
+            rectangle1.setWidth(newTranslateX);
+            rectangle1.setHeight(newTranslateY);
+            rectangle1.setFill(Color.valueOf("B1D4E0"));
+        });
+        this.getPlotChildren().add(rectangle1);
+
+
 
 //  this.series.getNode().getStyleClass().add("lineColor");
 
@@ -131,14 +157,50 @@ public class Chart<X, Y> extends LineChart<X, Y> {
         final NumberAxis yAxis = (NumberAxis) this.getYAxis();
 
 
+
+
         if (plotArea == null && !getPlotChildren().isEmpty()) {
+
             Group plotContent = (Group) getPlotChildren().get(0).getParent();
             plotArea = (Group) plotContent.getParent();
+//            ZoomedRegionInChart(plotContent);
+
         }
+
+
+
         Platform.runLater(this::drawLine);
         Platform.runLater(() -> zoomAxis(xAxis, yAxis));
 
     }
+
+    private void ZoomedRegionInChart(Group plotContent )  {
+
+        plotContent.getParent().getParent().setOnMouseClicked(e->{
+
+            xplot = e.getSceneX();
+            yplot = e.getSceneY();
+            xPlotTranslate = ((Node) (e.getSource())).getTranslateX();
+            yPlotTranslate = ((Node) (e.getSource())).getTranslateY();
+        });
+        plotContent.getParent().getParent().setOnMouseDragged(e->{
+
+            double offsetX = e.getSceneX() - xplot;
+            double offsetY = e.getSceneY() -  yplot;
+            double newTranslateX = xPlotTranslate + offsetX;
+            double newTranslateY = yPlotTranslate + offsetY;
+
+           rectangle1.setX(0);
+           rectangle1.setY(0);
+           rectangle1.setWidth(newTranslateX);
+           rectangle1.setHeight(newTranslateY);
+            rectangle1.setStyle("-fx-background-color: #A9DCDAB8;");
+
+        });
+        getPlotChildren().add(rectangle1);
+
+    }
+
 
     private void zoomAxis(NumberAxis xAxis, NumberAxis yAxis) {
         getXAxis().setTickLabelGap(0.1);
@@ -303,7 +365,7 @@ public class Chart<X, Y> extends LineChart<X, Y> {
     public void showCross() {
 
 
-        CursorRectangle cursorRectangle = new CursorRectangle(this, this.series);
+        CursorRectangle cursorRectangle = new CursorRectangle(this, this.series, borderPane);
 
         getPlotChildren().add(cursorRectangle);
 

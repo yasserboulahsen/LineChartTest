@@ -13,14 +13,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 
 public class CursorRectangle extends Group {
@@ -41,11 +36,14 @@ public class CursorRectangle extends Group {
     private final Node node;
     private final XYChart.Series<?, ?> series;
 
+    private  final  BorderPane borderPane;
 
-    public CursorRectangle(Node node, XYChart.Series<?, ?> series) {
+
+    public CursorRectangle(Node node, XYChart.Series<?, ?> series, BorderPane borderPane) {
 
         this.series = series;
         this.node = node;
+        this.borderPane = borderPane;
         this.rectangleCross = new RectangleCross();
         this.verticalLineTop = new Line();
         this.verticalLineDown = new Line();
@@ -67,6 +65,8 @@ public class CursorRectangle extends Group {
         this.getChildren().addAll(this.verticalLineTop, this.verticalLineDown, this.rectangleCross, this.horizontalLineRight, this.horizontalLineLeft, this.label, this.deleteCrossLabel);
         this.label.setId("labelChart");
         this.setCursor(Cursor.HAND);
+        
+
 
 
     }

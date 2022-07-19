@@ -89,7 +89,7 @@ public class xyGraph {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        System.out.println("battery"+ this.battery);
+//                        System.out.println("battery"+ this.battery);
                         if (this.battery != null) {
                             this.progressBar.progressProperty().setValue((this.battery - 3) / 0.7);
                             if (this.battery < 3) {
