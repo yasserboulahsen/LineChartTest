@@ -1,7 +1,5 @@
-package com.example.linecharttest;
+package yasser.linechart;
 
-import ESP.EspData;
-import ESP.EspSerialPort;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +9,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-
-import static com.example.linecharttest.Controller.closedesp32;
 
 
 public class Main extends Application {

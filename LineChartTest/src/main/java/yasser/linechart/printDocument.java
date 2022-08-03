@@ -1,4 +1,4 @@
-package com.example.linecharttest;
+package yasser.linechart;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.DialogPane;

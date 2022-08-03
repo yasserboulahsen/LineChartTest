@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<DialogPane fx:id="dialogue" prefHeight="200" prefWidth="250.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.linecharttest.printDocument">
+<DialogPane fx:id="dialogue" prefHeight="200" prefWidth="250.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yasser.linechart.printDocument">
     <headerText>
         print document
     </headerText>

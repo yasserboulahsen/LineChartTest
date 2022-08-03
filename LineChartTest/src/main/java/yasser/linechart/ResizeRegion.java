@@ -1,4 +1,4 @@
-package com.example.linecharttest;
+package yasser.linechart;
 
 
 import javafx.event.EventHandler;

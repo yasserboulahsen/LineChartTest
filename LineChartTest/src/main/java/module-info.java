@@ -5,6 +5,6 @@ module com.example.linecharttest {
     requires java.desktop;
 
 
-    opens com.example.linecharttest to javafx.fxml;
-    exports com.example.linecharttest;
+    opens yasser.linechart to javafx.fxml;
+    exports yasser.linechart;
 }

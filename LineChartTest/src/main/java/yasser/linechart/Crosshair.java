@@ -1,4 +1,4 @@
-package com.example.linecharttest;
+package yasser.linechart;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
@@ -54,7 +54,7 @@ public  class Crosshair<X,Y> extends LineChart<X,Y> {
 
       });
       hLine.setOnMouseDragged(e->{
-          Chart.EventMouseOnYaxis(e, plotArea, hLine);
+          ChartLine.EventMouseOnYaxis(e, plotArea, hLine);
           for (XYChart.Data<X, Y> data : this.series.getData()) {
               if (hLine.getBoundsInParent().intersects(data.getNode().getBoundsInParent())){
 //                   System.out.println(data.getYValue().toString());

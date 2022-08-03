@@ -72,7 +72,7 @@ public class xyGraph {
                         e.printStackTrace();
                     }
 
-                    //Chart update to series graph
+                    //ChartLine update to series graph
 
 //                }
 

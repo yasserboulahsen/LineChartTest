@@ -1,4 +1,4 @@
-package com.example.linecharttest;
+package yasser.linechart;
 
 import ESP.EspSerialPort;
 import ESP.xyGraph;
@@ -102,8 +102,8 @@ public class Controller {
     //    private Rectangle rec =
     private final XYChart.Series<Number, Number> forceSeries = new XYChart.Series<>();
     private final XYChart.Series<Number, Number> speedSeries = new XYChart.Series<>();
-    private final Chart<Number, Number> forceChart = new Chart<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries, borderPane);
-    private final Chart<Number, Number> speedChart = new Chart<>(xaxis1, yaxis1, label2, xvalue2, speedSeries, borderPane);
+    private final ChartLine<Number, Number> forceChartLine = new ChartLine<>(xaxis, yaxis, yvalueLabel, xvalueLabel, forceSeries, borderPane);
+    private final ChartLine<Number, Number> speedChartLine = new ChartLine<>(xaxis1, yaxis1, label2, xvalue2, speedSeries, borderPane);
     private xyGraph graph;
     private final SerialPort[] esp32 = {null};
     public static SerialPort closedesp32;
@@ -133,31 +133,31 @@ public class Controller {
         start.setDisable(true);
         stopBtn.setDisable(true);
         borderPane.setCenter(vbox);
-        VBox.setVgrow(forceChart, Priority.ALWAYS);
-        VBox.setVgrow(speedChart, Priority.ALWAYS);
-        vbox.getChildren().addAll(forceChart, speedChart);
+        VBox.setVgrow(forceChartLine, Priority.ALWAYS);
+        VBox.setVgrow(speedChartLine, Priority.ALWAYS);
+        vbox.getChildren().addAll(forceChartLine, speedChartLine);
 
         forceSeries.setName("Force");
         speedSeries.setName("Speed");
-        forceChart.setAnimated(false);
-        speedChart.setAnimated(false);
-        speedChart.autoResize(true);
-        forceChart.autoResize(true);
-        forceChart.setCreateSymbols(true);
-        speedChart.setCreateSymbols(true);
-        speedChart.setId("speedchart");
-        forceChart.setId("forcechart");
+        forceChartLine.setAnimated(false);
+        speedChartLine.setAnimated(false);
+        speedChartLine.autoResize(true);
+        forceChartLine.autoResize(true);
+        forceChartLine.setCreateSymbols(true);
+        speedChartLine.setCreateSymbols(true);
+        speedChartLine.setId("speedchart");
+        forceChartLine.setId("forcechart");
         battery.progressProperty().setValue(1);
         lineCursor.setVisible(false);
-        speedChart.setOnMouseClicked(e->{
-            speedChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
-            forceChart.setStyle("");
+        speedChartLine.setOnMouseClicked(e->{
+            speedChartLine.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
+            forceChartLine.setStyle("");
             showCursorSpeed = true;
             showCursorForce = false;
         });
-        forceChart.setOnMouseClicked(e->{
-            forceChart.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
-            speedChart.setStyle("");
+        forceChartLine.setOnMouseClicked(e->{
+            forceChartLine.setStyle("-fx-background-color: rgba(128, 128, 128, 0.08);");
+            speedChartLine.setStyle("");
             showCursorSpeed = false;
             showCursorForce = true;
         });
@@ -179,23 +179,23 @@ public class Controller {
 
 
         start.setDisable(true);
-        speedChart.autoResize(true);
-        forceChart.autoResize(true);
+        speedChartLine.autoResize(true);
+        forceChartLine.autoResize(true);
 
 
         esp32[0].openPort();
 
         forceSeries.getData().removeAll(forceSeries.getData());
         speedSeries.getData().removeAll(speedSeries.getData());
-        forceChart.getData().clear();
-        speedChart.getData().clear();
+        forceChartLine.getData().clear();
+        speedChartLine.getData().clear();
         graph = new xyGraph(esp32, speedSeries, forceSeries,progressBar);
         graph.chart(1, 25);
 
 
 
-        forceChart.getDataSeries();
-        speedChart.getDataSeries();
+        forceChartLine.getDataSeries();
+        speedChartLine.getDataSeries();
 
         battery.progressProperty().bind(progressBar.progressProperty());
         battery.styleProperty().bind(progressBar.styleProperty());
@@ -211,10 +211,10 @@ public class Controller {
     public void showRectangle(ActionEvent actionEvent) {
 
         if(showCursorForce){
-            forceChart.addnewRectangle(borderPane);
+            forceChartLine.addnewRectangle(borderPane);
         }
         if(showCursorSpeed){
-            speedChart.addnewRectangle(borderPane);
+            speedChartLine.addnewRectangle(borderPane);
         }
 
 
@@ -227,18 +227,18 @@ public class Controller {
     public void onAutoSize(ActionEvent actionEvent) {
         sizeAuto = !sizeAuto;
 
-        speedChart.autoResize(sizeAuto);
-        forceChart.autoResize(sizeAuto);
+        speedChartLine.autoResize(sizeAuto);
+        forceChartLine.autoResize(sizeAuto);
 
 
     }
 
     public void onStop(ActionEvent actionEvent) {
         start.setDisable(false);
-        speedChart.autoResize(false);
-        forceChart.autoResize(false);
-        speedChart.getLine().toFront();
-        forceChart.getLine().toFront();
+        speedChartLine.autoResize(false);
+        forceChartLine.autoResize(false);
+        speedChartLine.getLine().toFront();
+        forceChartLine.getLine().toFront();
 
 
 
@@ -329,12 +329,12 @@ public class Controller {
     }
 
     public void onCursor(ActionEvent actionEvent) {
-        forceChart.crosshair();
-        speedChart.crosshair();
-        xValue.textProperty().bind(forceChart.getxValue().textProperty());
-        yValue.textProperty().bind(forceChart.getyVlaue().textProperty());
-        xValue2.textProperty().bind(speedChart.getxValue().textProperty());
-        yValue2.textProperty().bind(speedChart.getyVlaue().textProperty());
+        forceChartLine.crosshair();
+        speedChartLine.crosshair();
+        xValue.textProperty().bind(forceChartLine.getxValue().textProperty());
+        yValue.textProperty().bind(forceChartLine.getyVlaue().textProperty());
+        xValue2.textProperty().bind(speedChartLine.getxValue().textProperty());
+        yValue2.textProperty().bind(speedChartLine.getyVlaue().textProperty());
     }
     @FXML
     public void printButton() {
@@ -423,10 +423,10 @@ public class Controller {
     public void onCross(ActionEvent actionEvent) {
 
         if(showCursorForce){
-            forceChart.showCross();
+            forceChartLine.showCross();
         }
         if(showCursorSpeed){
-            speedChart.showCross();
+            speedChartLine.showCross();
         }
     }
 
